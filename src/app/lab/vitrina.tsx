@@ -5,11 +5,11 @@ import CountUp from "@/components/CountUp";
 import DecryptedText from "@/components/DecryptedText";
 import ElectricBorder from "@/components/ElectricBorder";
 import HeroVideo from "@/components/site/HeroVideo";
+import Sectores, { type Sector } from "@/components/site/Sectores";
 import RayoAlSistema, { type Sistema } from "@/components/site/RayoAlSistema";
 import LogoLoop from "@/components/LogoLoop";
 import MagnetLines from "@/components/MagnetLines";
 import SplitText from "@/components/SplitText";
-import SpotlightCard from "@/components/SpotlightCard";
 import Stepper, { Step } from "@/components/Stepper";
 import Topography from "@/components/Topography";
 
@@ -49,28 +49,81 @@ const SISTEMA_V: Sistema = {
 
 const AVALES = ["NOM", "ANCE", "NMX", "IEEE", "ABNT", "SEC", "IMPI"];
 
-const SECTORES = [
-  [
-    "Industria y manufactura",
-    "Líneas de producción, automatización, tableros y equipos de control.",
-  ],
-  [
-    "Hotelería",
-    "Instalaciones y sistemas que sostienen la experiencia del huésped.",
-  ],
-  [
-    "Hospitales y clínicas",
-    "Infraestructura eléctrica y equipos sensibles para la atención médica.",
-  ],
-  [
-    "Telecomunicaciones y centros de datos",
-    "Servidores, redes, sistemas de respaldo e instalaciones de transmisión.",
-  ],
-  [
-    "Construcción e infraestructura",
-    "Ingeniería y ejecución para obra nueva, ampliaciones y modernizaciones.",
-  ],
-  ["Minería", "Infraestructura de operación, mantenimiento y servicios."],
+const SECTORES: Sector[] = [
+  {
+    titulo: "Industria y manufactura",
+    texto:
+      "Líneas de producción, automatización, tableros y equipos de control.",
+    areas: [
+      "Subestaciones",
+      "Cuartos eléctricos",
+      "Líneas de producción",
+      "PLC y variadores",
+      "Almacenes",
+    ],
+    imagen: `${BASE}/lab/sector-industria.jpg`,
+    alt: "Imagen conceptual: planta de manufactura de noche, con pararrayos en la azotea",
+  },
+  {
+    titulo: "Hotelería",
+    texto: "Instalaciones y sistemas que sostienen la experiencia del huésped.",
+    areas: [
+      "Cuartos eléctricos",
+      "Equipos de comunicación",
+      "Elevadores",
+      "Bombeo",
+      "Plantas de emergencia",
+    ],
+    imagen: `${BASE}/lab/sector-hoteleria.jpg`,
+    alt: "Imagen conceptual: hotel frente al mar de noche, con pararrayos en la azotea",
+  },
+  {
+    titulo: "Hospitales y clínicas",
+    texto:
+      "Infraestructura eléctrica y equipos sensibles para la atención médica.",
+    areas: [
+      "Cuartos eléctricos",
+      "Infraestructura de comunicación",
+      "Sistemas de respaldo",
+      "Equipos médicos sensibles",
+    ],
+    imagen: `${BASE}/lab/sector-salud.jpg`,
+    alt: "Imagen conceptual: hospital de noche, con pararrayos en la azotea",
+  },
+  {
+    titulo: "Telecomunicaciones y centros de datos",
+    texto:
+      "Servidores, redes, sistemas de respaldo e instalaciones de transmisión.",
+    areas: [
+      "Servidores y racks",
+      "Torres",
+      "Shelters",
+      "UPS y baterías",
+      "Tableros",
+    ],
+    imagen: `${BASE}/lab/sector-telecom.jpg`,
+    alt: "Imagen conceptual: torre de telecomunicaciones y centro de datos de noche, con pararrayos en la punta",
+  },
+  {
+    titulo: "Construcción e infraestructura",
+    texto:
+      "Ingeniería y ejecución para obra nueva, ampliaciones y modernizaciones.",
+    areas: [
+      "Desarrollos habitacionales",
+      "Edificios comerciales",
+      "Parques industriales",
+      "Infraestructura",
+    ],
+    imagen: `${BASE}/lab/sector-construccion.jpg`,
+    alt: "Imagen conceptual: edificio en construcción de noche, con pararrayos en el punto más alto",
+  },
+  {
+    titulo: "Minería",
+    texto: "Infraestructura de operación, mantenimiento y servicios.",
+    areas: ["Operación", "Mantenimiento", "Almacenamiento", "Servicios"],
+    imagen: `${BASE}/lab/sector-mineria.jpg`,
+    alt: "Imagen conceptual: operación minera de noche, con pararrayos en la estructura más alta",
+  },
 ];
 
 function Etiqueta({ n, children }: { n: string; children: React.ReactNode }) {
@@ -304,21 +357,12 @@ export default function Vitrina() {
         <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
           Especialización para distintos sectores
         </h2>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {SECTORES.map(([titulo, texto], i) => (
-            <SpotlightCard
-              key={titulo}
-              spotlightColor="rgba(242,107,29,0.28)"
-              borderGlow={0.7}
-              className="cursor-pointer rounded-2xl border border-white/10 bg-[#0b1f3a] p-6"
-            >
-              <p className="font-mono text-xs text-orange">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-6 text-lg font-semibold">{titulo}</h3>
-              <p className="mt-2 text-sm text-white/70">{texto}</p>
-            </SpotlightCard>
-          ))}
+        <p className="mt-3 max-w-xl text-white/70">
+          Cada instalación es distinta; todas terminan conectadas a la misma
+          tierra.
+        </p>
+        <div className="mt-10">
+          <Sectores sectores={SECTORES} />
         </div>
       </section>
 
