@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/*
+ * Paleta provisional tomada a ojo del deck de hotelería (azul marino + naranja de acento).
+ * Se reemplaza por la oficial cuando llegue el manual / logo vectorial.
+ */
+:root {
+  --navy: #0b1f3a;
+  --orange: #f26b1d;
+  --paper: #ffffff;
+  --ink: #0b1f3a;
+}
+
+@theme inline {
+  --color-navy: var(--navy);
+  --color-orange: var(--orange);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --font-sans: var(--font-sans-base);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans-base), system-ui, sans-serif;
+}
