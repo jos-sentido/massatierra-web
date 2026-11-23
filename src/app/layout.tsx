@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
 // Tipografía provisional: las del deck nuevo están pendientes de recibir del cliente.
-const sans = Geist({
-  variable: "--font-sans-base",
-  subsets: ["latin"],
-});
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Massatierra · Tecnología para su tranquilidad",
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="es-MX" className={`${sans.variable} h-full antialiased`}>
+    <html lang="es-MX" className={cn("h-full", "antialiased", "font-sans", geist.variable)}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

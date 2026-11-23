@@ -5,6 +5,10 @@
 > [`brief.md`](brief.md), [`decisiones.md`](decisiones.md) y el
 > [anexo de pauta](https://propuestas.sentido.mx/massatierra/google-ads).
 >
+> **Alcance (Jos, 2026-11-23): el sitio se desarrolla completo, sin etapas.** Nada se deja
+> «para después del lanzamiento»; lo único que espera es lo que depende de información del
+> cliente (🚧).
+>
 > **Estado:** propuesta de Sentido, 2026-11-23. Falta validarla con Mauro. Lo marcado con 🚧
 > no se escribe hasta que se cierre la decisión que se indica.
 
@@ -19,8 +23,8 @@
 | ✏️ | La garantía y la cifra de 2 Ω | El heredado la suaviza a «objetivo de diseño menor a 2 Ω», y el brief dice «2 Ω garantizados por escrito». Ver la decisión 8 |
 | ✏️ | Contacto sin «menos de dos horas» ni «gratuito» | Decisión 5. Mientras no se cierre, el copy no promete tiempos |
 | ✏️ | Empresa con presencia en México · Chile · Perú | Son las oficinas del brief. El heredado solo dice «México y el extranjero» |
-| ⏸️ | Academia Massatierra **no sale en el lanzamiento** como «Próximamente» | Una página vacía no suma. El brief dice que ya hay **capacitaciones con validez oficial**: si existen, sale como página real (ver la pregunta 4) |
-| ⏸️ | El centro de conocimiento sale con lo que ya está escrito (4 artículos) | Los artículos nuevos de normativa son del módulo de Contenido (fase 2) |
+| ✏️ | Academia «Próximamente» → página real de **Capacitación** | Una página vacía no suma. El brief dice que ya hay **capacitaciones con validez oficial**; hacen falta los cursos y el temario (ver la pregunta 4) |
+| ➕ | El centro de conocimiento lleva los 4 artículos ya escritos **más los de normativa** que alimentan `/cumplimiento` | ⚠️ Escribir artículos nuevos estaba cotizado en el módulo de Contenido: Jos define si entra al alcance del sitio |
 | ❓ | Supresores de pico | Están en el heredado, pero en ningún material oficial del cliente (CV, brochure, deck). Se confirma antes de publicar (decisión 9) |
 
 ## Árbol de rutas
@@ -64,7 +68,7 @@ Las rutas van en español, sin acentos y en minúsculas. ⭐ = destino de campa�
 │   ├── /centro-de-conocimiento     Los 4 artículos del heredado
 │   ├── /biblioteca-tecnica         Catálogo, fichas, patente, certificados
 │   ├── /preguntas-frecuentes       11 del heredado + las de cumplimiento
-│   └── /capacitacion               ❓ solo si hay oferta real (pregunta 4)
+│   └── /capacitacion               🚧 cursos y temario (pregunta 4)
 │
 ├── /empresa                        Quiénes somos, misión, visión, calidad, presencia
 │
@@ -124,16 +128,15 @@ cotizador necesite, sin construir el cotizador aquí.
 **Formulario de soporte** (`/soporte`): los campos del heredado, a otra colección.
 
 **Conversiones que pide el anexo:** llamadas · clics a WhatsApp · descargas de ficha técnica ·
-solicitudes de cotización · abandonos de formulario. Se instrumentan desde el lanzamiento,
+solicitudes de cotización · abandonos de formulario. Se instrumentan desde el primer día,
 porque el remarketing necesita audiencia acumulada.
 
-## Lo que el lanzamiento NO lleva
+## Lo que el sitio NO lleva (y por qué)
 
 - Logos de clientes (decisión 4). Los casos van por sector.
 - Cifras de trayectoria más allá de «+25 años» (decisión 1). Es la única que coincide en
   todos los documentos.
-- Academia «Próximamente».
-- El asistente virtual del heredado. Es parte del CRM (fase 2).
+- El asistente virtual del heredado. Es parte del servicio de CRM, que se contrata aparte.
 - El cotizador y el tablero. Son un build aparte.
 
 ## Migración desde el sitio actual
@@ -143,6 +146,24 @@ El sitio vivo es Joomla en `massatierra.net` (decisión 3). Antes de cambiar el 
       mapa de redirecciones 301 hacia las rutas nuevas
 - [ ] Decidir el dominio canónico y emitir el certificado (requisito antes de la pauta)
 
+## Diseño y movimiento
+
+Todo esto forma parte del sitio completo; el detalle y las demos están en el entregable
+(pestaña «Elementos de diseño»):
+
+- **Hero en video** con el recorrido de la descarga (idea de Jos): entra por la punta, baja por
+  la conducción, el electrodo la disipa y las corrientes del subsuelo no regresan. Imágenes
+  conceptuales generadas en Higgsfield. 🚧 Ingeniería de Massatierra valida la escena.
+- **Escena 3D del electrodo** que el visitante puede girar (Tecnología / Productos).
+- **Animación esquemática** del recorrido, etiquetada, para explicar cada componente.
+- **Microinteracciones**, **texto técnico que se decodifica** (React Bits) y **transiciones
+  tarjeta → página**.
+- Herramientas: shadcn + registro `@react-bits` ya instalados en el repo; Getlayers (MCP)
+  pendiente de que Jos instale el plugin.
+- Reglas de calidad (auditoría `ui-ux-pro-max`): 1–2 movimientos por pantalla, vidrio solo
+  sobre imágenes, efectos que no dependan del cursor, video que se pausa fuera de pantalla e
+  imagen fija con movimiento reducido, formularios cortos en 2 pasos.
+
 ## Preguntas para Mauro (además de las decisiones abiertas)
 
 1. **Formato de dictamen** que entregan, y 2 o 3 ejemplos de levantamientos de clientes
@@ -151,6 +172,6 @@ El sitio vivo es Joomla en `massatierra.net` (decisión 3). Antes de cambiar el 
 3. **Fichas técnicas** de cada modelo MTK, MTPP02 y MTAT02, y qué diferencia a un MTK de otro
    (capacidad, aplicación). Sin eso, las fichas no se pueden escribir.
 4. **Capacitaciones con validez oficial:** ¿qué cursos hay, con qué registro (¿STPS/DC-3?) y
-   cómo se contratan? Si son reales, `/recursos/capacitacion` sale en el lanzamiento.
+   cómo se contratan? Si son reales, `/recursos/capacitacion` se construye con esa información.
 5. **Casos:** de todos los proyectos, ¿cuáles se pueden contar con nombre del sector, ciudad
    y alcance? Ver también la decisión 4.

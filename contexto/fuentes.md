@@ -140,6 +140,41 @@ Es el mejor argumento vivo para lo que sigue.
 
 ---
 
+## 4.1 · Fotos de la punta MTPP02 usada (2026-11-23)
+
+Jos tomó 4 fotos en una reunión presencial en las oficinas de Massatierra
+(Drive: [carpeta](https://drive.google.com/drive/folders/1lvwtPsAMtYdwua3oZjo5-KKXzcQq5kvo)).
+Es una **punta pararrayos que ya recibió descargas**. Coincide con la MTPP02 del brochure
+(p. 8 y 10): cuerpo central, tres laterales roscadas y collar amarillo.
+
+**Lo que se ve, sin interpretarlo técnicamente:**
+- El extremo de la punta está fundido y redondeado, con un cráter y una costra oscura.
+- Hay escurrimientos y manchas oscuras a lo largo de un costado del cuerpo. El otro
+  costado conserva el brillo del acero.
+- Una de las laterales tiene la punta quemada; las otras dos se ven limpias.
+- La base es un collar amarillo con una pieza blanca y una arandela negra.
+
+**Por qué vale:** es evidencia física de algo que el brochure afirma («ultra resistente a
+descargas de alta intensidad»). Va en `/pararrayos`, en la ficha MTPP02 y en el contenido de redes.
+
+**Antes de publicarla, preguntar a Mauro:**
+- ¿Es una MTPP02?
+- ¿Dónde estaba instalada y cuántas descargas recibió, si se sabe?
+- ¿El sistema siguió protegiendo después de las descargas?
+- ¿Autorizan publicarla?
+
+Hasta tener esas respuestas, el pie de foto no afirma nada que no se vea en la imagen.
+**No se inventan cifras de corriente ni de número de descargas.**
+
+**Uso de IA:**
+- ✅ Renders de la punta **nueva**, basados en estas fotos y en el render del brochure.
+- ✅ Limpiar el fondo de las fotos reales.
+- ❌ **Generar con IA el desgaste de una punta usada.** Sería fabricar una evidencia, y
+  la fuerza de esta pieza está en que es real.
+- Lo ideal es una sesión de foto de estudio de la pieza (fondo neutro, macro de la punta).
+
+Las fotos traen la pantalla de una laptop con información interna: hay que recortarla.
+
 ## 5 · Dónde viven los archivos
 
 El repo **no versiona binarios** por regla propia (`.gitignore`: los assets pesados van a
