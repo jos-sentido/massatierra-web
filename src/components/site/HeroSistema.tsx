@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import HeroPlano from "./HeroPlano";
 
 /*
  * Hero «el sistema manejando una descarga», en dibujo técnico de línea.
@@ -18,7 +19,6 @@ import { useEffect, useRef } from "react";
  */
 
 // Geometría de la escena, en unidades del viewBox (1600 × 900).
-const SUELO = 560;
 const X = 1020; // eje del sistema
 const PUNTA: [number, number] = [X, 262];
 const TIERRA: [number, number] = [X, 692];
@@ -343,7 +343,6 @@ export default function HeroSistema({
   }, []);
 
   const linea = { vectorEffect: "non-scaling-stroke" as const, fill: "none" };
-  const acero = "#7f95b5";
   const cobre = "#d9955f";
 
   return (
@@ -436,7 +435,7 @@ export default function HeroSistema({
 
         <g mask="url(#hs-mask)">
           {/* Estratos del terreno: curvas finas, como en la sección de estudios */}
-          <g stroke={cobre} strokeWidth="1" opacity="0.16" {...linea}>
+          <g stroke="#8fa6c7" strokeWidth="1" opacity="0.13" {...linea}>
             <path d="M0 610 C240 596 420 628 700 612 S1180 598 1600 618" />
             <path d="M0 668 C300 650 520 690 820 668 S1300 652 1600 676" />
             <path d="M0 732 C260 716 560 752 880 730 S1340 712 1600 740" />
@@ -444,57 +443,7 @@ export default function HeroSistema({
             <path d="M0 864 C300 850 640 880 980 862 S1400 848 1600 870" />
           </g>
 
-          {/* Instalaciones lejanas */}
-          <g stroke={acero} strokeWidth="1" opacity="0.3" {...linea}>
-            <path d="M560 560 V500 H640 V560 M580 500 V470 H620 V500 M660 560 V430 H690 V560 M660 450 H690 M660 480 H690 M660 510 H690 M700 560 V520 H790 V560 M720 520 V560 M745 520 V560 M770 520 V560" />
-            <path d="M675 430 V404 M670 404 H680" />
-          </g>
-
-          {/* Nave industrial */}
-          <path
-            d={`M${X} ${SUELO} V330 H1570 V${SUELO} Z M890 ${SUELO} V452 H${X} V${SUELO} Z`}
-            fill="#0a1930"
-            opacity="0.92"
-          />
-          <path
-            d="M1190 392 H1530 V470 H1190 Z"
-            fill="#f2c98a"
-            opacity="0.07"
-          />
-          <g stroke={acero} strokeWidth="1" opacity="0.85" {...linea}>
-            <path d={`M${X} ${SUELO} V330 H1570 V${SUELO}`} />
-            <path d="M1020 344 H1570" opacity="0.5" />
-            <path
-              d="M1100 330 V312 H1230 V330 M1100 321 H1230 M1132 312 V330 M1166 312 V330 M1198 312 V330"
-              opacity="0.7"
-            />
-            <path d="M1190 392 H1530 V470 H1190 Z M1247 392 V470 M1304 392 V470 M1361 392 V470 M1418 392 V470 M1475 392 V470 M1190 431 H1530" />
-            <path d="M1086 478 H1140 V560 M1086 478 V560 M1113 478 V560" />
-            {/* Volumen bajo y tanques */}
-            <path d={`M890 ${SUELO} V452 H1020`} />
-            <path d="M918 452 V400 M968 452 V400 M918 400 C918 388 968 388 968 400 M918 400 C918 412 968 412 968 400" />
-            <path
-              d="M840 560 V470 C840 460 876 460 876 470 V560 M840 470 C840 480 876 480 876 470"
-              opacity="0.7"
-            />
-            {/* Entramado de la fachada */}
-            <path
-              d="M1060 344 V560 M1160 344 V392 M1300 344 V392 M1440 344 V392 M1540 470 V560 M1260 470 V560 M1400 470 V560"
-              opacity="0.28"
-            />
-          </g>
-
-          {/* Línea de terreno */}
-          <path
-            d={`M0 ${SUELO} H1600`}
-            stroke={cobre}
-            strokeWidth="1.2"
-            opacity="0.7"
-            {...linea}
-          />
-          <g stroke={cobre} strokeWidth="1" opacity="0.3" {...linea}>
-            <path d="M700 560 l-9 12 M760 560 l-9 12 M820 560 l-9 12 M940 560 l-9 12 M1200 560 l-9 12 M1320 560 l-9 12 M1440 560 l-9 12 M1560 560 l-9 12" />
-          </g>
+          <HeroPlano />
 
           {/* Disipación en reposo: anillos tenues y constantes */}
           <g
@@ -536,7 +485,7 @@ export default function HeroSistema({
           {/* ── El sistema ── */}
           {/* Bajante */}
           <path
-            d={`M${X} 330 V590`}
+            d={`M${X} 350 V590`}
             stroke={cobre}
             strokeWidth="1.6"
             {...linea}
@@ -546,7 +495,7 @@ export default function HeroSistema({
           </g>
           {/* Punta: mástil corto, cuerpo central y tres laterales */}
           <path
-            d={`M${X} 330 V292`}
+            d={`M${X} 350 V292`}
             stroke="#c9d6e8"
             strokeWidth="1.6"
             {...linea}

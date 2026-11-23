@@ -61,19 +61,16 @@ export default function Sectores({ sectores }: { sectores: Sector[] }) {
 
               {/* Número y título cuando está cerrado (vertical en escritorio) */}
               <div
-                className={`absolute inset-0 flex items-center gap-4 px-5 transition-opacity duration-300 md:flex-col md:items-center md:justify-between md:px-0 md:py-6 ${
+                className={`absolute inset-0 flex items-center gap-4 px-5 transition-opacity duration-300 md:flex-col md:items-center md:justify-center md:px-0 md:py-6 ${
                   abierto ? "pointer-events-none opacity-0" : "opacity-100"
                 }`}
               >
-                <span className="font-mono text-xs text-orange">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
                 <span className="text-sm font-semibold text-white/90 md:rotate-180 md:whitespace-nowrap md:[writing-mode:vertical-rl]">
                   {s.titulo}
                 </span>
                 <span
                   aria-hidden
-                  className="hidden h-2 w-2 rounded-full bg-white/30 md:block"
+                  className="absolute bottom-6 hidden h-2 w-2 rounded-full bg-white/30 md:block"
                 />
               </div>
 
@@ -85,9 +82,6 @@ export default function Sectores({ sectores }: { sectores: Sector[] }) {
                     : "pointer-events-none translate-y-3 opacity-0"
                 }`}
               >
-                <span className="font-mono text-xs text-orange">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
                 <h3 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
                   {s.titulo}
                 </h3>
@@ -114,35 +108,84 @@ export default function Sectores({ sectores }: { sectores: Sector[] }) {
                     ? "h-10 opacity-100 shadow-[0_0_12px_2px_rgba(242,107,29,.7)]"
                     : "h-4 opacity-40"
                 }`}
-              />
+              >
+                {abierto && (
+                  <span className="energia-v absolute inset-y-0 -left-[1.5px] w-[6px]" />
+                )}
+              </span>
             </button>
           );
         })}
       </div>
 
       {/* Barra de tierra común (solo escritorio): un pulso viaja hasta el sector activo */}
-      <div aria-hidden className="relative mt-3 hidden h-10 md:block">
-        <div className="absolute inset-x-0 top-0 h-[3px] rounded-full bg-[#b8733f]/45" />
+      <div aria-hidden className="relative mt-3 hidden h-[150px] md:block">
+        <div className="absolute inset-x-0 top-0 h-[2px] rounded-full bg-[#b8733f]/55" />
         <div
-          className="absolute top-0 h-[3px] rounded-full bg-orange shadow-[0_0_14px_3px_rgba(242,107,29,.75)] transition-[left,width] duration-500 ease-[cubic-bezier(.3,.7,.2,1)] motion-reduce:transition-none"
+          className="absolute top-0 h-[2px] overflow-visible rounded-full bg-orange shadow-[0_0_14px_3px_rgba(242,107,29,.75)] transition-[left,width] duration-500 ease-[cubic-bezier(.3,.7,.2,1)] motion-reduce:transition-none"
           style={barra(activo, sectores.length)}
-        />
-        {/* Símbolo de tierra */}
-        <svg
-          viewBox="0 0 40 34"
-          className="absolute left-1/2 top-0 h-9 w-10 -translate-x-1/2 text-[#e0a06a]"
         >
-          <path
-            d="M20 0v12M6 12h28M11 19h18M16 26h8"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            fill="none"
+          <span
+            className={`energia-h absolute inset-x-0 -top-[2px] h-[6px] ${haciaIzquierda(activo, sectores.length) ? "energia-inv" : ""}`}
           />
+        </div>
+        {/* Electrodo: mismo trazo que el del hero. Los anillos pulsan al cambiar de sector. */}
+        <svg
+          viewBox="0 0 520 150"
+          className="absolute left-1/2 top-0 h-[150px] w-[520px] -translate-x-1/2 overflow-visible"
+          fill="none"
+        >
+          {/* Disipación en reposo */}
+          <g stroke="#d9955f" strokeWidth="1" opacity="0.28">
+            <ellipse cx="260" cy="112" rx="60" ry="14" />
+            <ellipse cx="260" cy="112" rx="125" ry="26" />
+            <ellipse cx="260" cy="112" rx="195" ry="36" />
+            <ellipse cx="260" cy="112" rx="258" ry="44" />
+          </g>
+          {/* Disipación activa */}
+          <g
+            key={activo}
+            stroke="#ff9a4d"
+            strokeWidth="1.5"
+            className="sectores-pulso"
+          >
+            <ellipse cx="260" cy="112" rx="258" ry="44" />
+            <ellipse cx="260" cy="112" rx="258" ry="44" />
+            <ellipse cx="260" cy="112" rx="258" ry="44" />
+          </g>
+          {/* Conexión a la barra */}
+          <path d="M260 0 V30" stroke="#d9955f" strokeWidth="1.6" />
+          <path
+            d="M254 12 H266 M254 22 H266"
+            stroke="#d9955f"
+            strokeWidth="1.1"
+            opacity="0.8"
+          />
+          {/* Cabeza */}
+          <rect x="251" y="30" width="18" height="17" rx="2" fill="#2a6fd6" />
+          <path
+            d="M251 36 H269"
+            stroke="#0b1f3a"
+            strokeWidth="1"
+            opacity="0.5"
+          />
+          {/* Patas y cono de cobre */}
+          <path
+            d="M238 47 H282 M240 47 L257 104 M280 47 L263 104 M260 47 V104"
+            stroke="#d9955f"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+          <path d="M252 104 H268 L260 124 Z" fill="#d9955f" />
         </svg>
       </div>
     </div>
   );
+}
+
+/** El sector activo queda a la derecha del electrodo: la energía viaja hacia la izquierda. */
+function haciaIzquierda(activo: number, n: number) {
+  return ((activo + 2.5) / (n - 1 + 5)) * 100 > 50;
 }
 
 /** Tramo encendido de la barra: del centro (tierra) al centro del panel activo. */

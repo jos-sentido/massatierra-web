@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import CountUp from "@/components/CountUp";
 import DecryptedText from "@/components/DecryptedText";
 import ElectricBorder from "@/components/ElectricBorder";
 import HeroSistema from "@/components/site/HeroSistema";
+import { Ficha, Rotulo } from "@/components/site/Rotulo";
+import Solicitud from "@/components/site/Solicitud";
 import Sectores, { type Sector } from "@/components/site/Sectores";
 import LogoLoop from "@/components/LogoLoop";
 import MagnetLines from "@/components/MagnetLines";
 import SplitText from "@/components/SplitText";
-import Stepper, { Step } from "@/components/Stepper";
 import Topography from "@/components/Topography";
 
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -95,14 +95,6 @@ const SECTORES: Sector[] = [
   },
 ];
 
-function Etiqueta({ n, children }: { n: string; children: React.ReactNode }) {
-  return (
-    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/55">
-      <span className="text-orange">{n}</span> · {children}
-    </p>
-  );
-}
-
 function Nota({ children }: { children: React.ReactNode }) {
   return (
     <span className="pointer-events-none absolute bottom-3 right-4 z-20 rounded-md bg-black/45 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/70">
@@ -112,8 +104,6 @@ function Nota({ children }: { children: React.ReactNode }) {
 }
 
 export default function Vitrina() {
-  const [enviado, setEnviado] = useState(false);
-
   return (
     <main className="bg-[#050d1c] text-white">
       {/* 1 · HERO */}
@@ -122,7 +112,7 @@ export default function Vitrina() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#040a17]/90 via-[#040a17]/45 to-transparent max-lg:via-[#040a17]/70 max-md:bg-gradient-to-t max-md:from-[#040a17] max-md:from-25% max-md:via-[#040a17]/60 max-md:via-50% max-md:to-transparent" />
         <div className="mx-auto w-full max-w-6xl px-6 py-24 max-md:pb-14 max-md:pt-0">
           <div className="max-w-xl">
-            <Etiqueta n="01">Tierras físicas y pararrayos</Etiqueta>
+            <Rotulo simbolo="descarga">Tierras físicas y pararrayos</Rotulo>
             <SplitText
               tag="h1"
               text="Tecnología para proteger lo que mantiene en marcha su empresa"
@@ -221,7 +211,7 @@ export default function Vitrina() {
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-20 md:grid-cols-2">
           <div>
-            <Etiqueta n="02">Tecnología</Etiqueta>
+            <Rotulo simbolo="bobina">Tecnología</Rotulo>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
               Electrodo Magneto Activo
             </h2>
@@ -230,18 +220,15 @@ export default function Vitrina() {
               corrientes no deseadas a tierra y evita que regresen del subsuelo
               a las aplicaciones.
             </p>
-            <ul className="mt-6 space-y-2 text-sm text-white/80">
-              {[
-                "Baja impedancia",
-                "Libre de mantenimiento",
-                "100% cobre electrolítico",
-              ].map((t) => (
-                <li key={t} className="flex items-center gap-3">
-                  <span className="h-px w-6 bg-orange" aria-hidden />
-                  {t}
-                </li>
-              ))}
-            </ul>
+            <div className="mt-8 max-w-md">
+              <Ficha
+                renglones={[
+                  ["Impedancia", "Baja"],
+                  ["Mantenimiento", "Libre de mantenimiento"],
+                  ["Material", "100% cobre electrolítico"],
+                ]}
+              />
+            </div>
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[440px]">
             <MagnetLines
@@ -284,7 +271,7 @@ export default function Vitrina() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#050d1c] via-[#050d1c]/70 to-transparent" />
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="max-w-lg">
-            <Etiqueta n="03">Estudios y medición</Etiqueta>
+            <Rotulo simbolo="resistencia">Estudios y medición</Rotulo>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
               Conozca las condiciones de su terreno antes de decidir
             </h2>
@@ -308,7 +295,7 @@ export default function Vitrina() {
 
       {/* 5 · SECTORES */}
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <Etiqueta n="04">Sectores</Etiqueta>
+        <Rotulo simbolo="barra">Sectores</Rotulo>
         <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
           Especialización para distintos sectores
         </h2>
@@ -321,110 +308,29 @@ export default function Vitrina() {
         </div>
       </section>
 
-      {/* 6 · FORMULARIO */}
+      {/* 6 · DIAGNÓSTICO */}
       <section className="border-t border-white/10 bg-[#081428]">
-        <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 py-20 md:grid-cols-2">
+        <div className="mx-auto grid max-w-6xl items-start gap-12 px-6 py-20 lg:grid-cols-[0.85fr_1.15fr]">
           <div>
-            <Etiqueta n="05">Cumplimiento</Etiqueta>
+            <Rotulo simbolo="tierra">Diagnóstico</Rotulo>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Cuéntenos qué le observaron
+              Cuéntenos qué necesita proteger
             </h2>
             <p className="mt-4 max-w-md text-white/75">
-              Usted no necesita coordinar a cuatro proveedores. Estudio,
-              instalación, dictamen y garantía con un solo responsable.
+              Comparta las características de su instalación o proyecto. Un
+              especialista le ayudará a identificar cómo comenzar.
             </p>
+            <div className="mt-8 max-w-md">
+              <Ficha
+                renglones={[
+                  ["Conmutador", "+52 33 3627 3226"],
+                  ["WhatsApp", "+52 33 1043 3045"],
+                  ["Horario", "Lunes a viernes, 9:00 a 18:00"],
+                ]}
+              />
+            </div>
           </div>
-          <div>
-            {enviado ? (
-              <p
-                role="status"
-                className="rounded-2xl border border-white/15 bg-[#0b1f3a] p-8 text-white/85"
-              >
-                Gracias. Este es un formulario de demostración: no se envió
-                ningún dato.
-              </p>
-            ) : (
-              <Stepper
-                theme="dark"
-                accentColor={ORANGE}
-                indicator="numbers"
-                backButtonText="Regresar"
-                nextButtonText="Continuar"
-                completeButtonText="Enviar"
-                onFinalStepCompleted={() => setEnviado(true)}
-              >
-                <Step>
-                  <div className="space-y-4">
-                    <label className="block text-sm">
-                      <span className="text-white/80">Nombre</span>
-                      <input
-                        type="text"
-                        autoComplete="name"
-                        className="mt-1 h-11 w-full rounded-lg border border-white/20 bg-white/5 px-3 text-base outline-none focus-visible:border-orange"
-                      />
-                    </label>
-                    <label className="block text-sm">
-                      <span className="text-white/80">Teléfono o WhatsApp</span>
-                      <input
-                        type="tel"
-                        autoComplete="tel"
-                        className="mt-1 h-11 w-full rounded-lg border border-white/20 bg-white/5 px-3 text-base outline-none focus-visible:border-orange"
-                      />
-                    </label>
-                    <fieldset className="text-sm">
-                      <legend className="text-white/80">
-                        ¿Recibió recientemente un levantamiento o dictamen de
-                        cumplimiento?
-                      </legend>
-                      <div className="mt-2 flex gap-6">
-                        {["Sí", "No"].map((o) => (
-                          <label
-                            key={o}
-                            className="flex min-h-11 cursor-pointer items-center gap-2"
-                          >
-                            <input
-                              type="radio"
-                              name="levantamiento"
-                              className="h-4 w-4 accent-[#f26b1d]"
-                            />
-                            {o}
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
-                  </div>
-                </Step>
-                <Step>
-                  <div className="space-y-4">
-                    <label className="block text-sm">
-                      <span className="text-white/80">Empresa</span>
-                      <input
-                        type="text"
-                        autoComplete="organization"
-                        className="mt-1 h-11 w-full rounded-lg border border-white/20 bg-white/5 px-3 text-base outline-none focus-visible:border-orange"
-                      />
-                    </label>
-                    <label className="block text-sm">
-                      <span className="text-white/80">
-                        Ciudad de la instalación
-                      </span>
-                      <input
-                        type="text"
-                        className="mt-1 h-11 w-full rounded-lg border border-white/20 bg-white/5 px-3 text-base outline-none focus-visible:border-orange"
-                      />
-                    </label>
-                    <label className="block text-sm">
-                      <span className="text-white/80">¿Qué le pidieron?</span>
-                      <textarea
-                        rows={3}
-                        className="mt-1 w-full rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-base outline-none focus-visible:border-orange"
-                      />
-                    </label>
-                  </div>
-                </Step>
-              </Stepper>
-            )}
-          </div>
+          <Solicitud />
         </div>
       </section>
     </main>

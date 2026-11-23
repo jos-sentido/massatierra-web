@@ -162,3 +162,43 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-sistema .hs-nube { animation: none; opacity: 0.5; }
 }
+
+/* Sectores: pulso de disipación del electrodo al cambiar de sector */
+@keyframes sectores-anillo {
+  0% { opacity: 0; transform: scale(0.12); }
+  14% { opacity: 0.95; }
+  100% { opacity: 0; transform: scale(1); }
+}
+.sectores-pulso ellipse {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sectores-anillo 1.5s cubic-bezier(0.2, 0.6, 0.3, 1) 0.35s both;
+}
+.sectores-pulso ellipse:nth-child(2) { animation-delay: 0.55s; }
+.sectores-pulso ellipse:nth-child(3) { animation-delay: 0.75s; }
+@media (prefers-reduced-motion: reduce) {
+  .sectores-pulso ellipse { animation: none; }
+}
+
+/* Energía en movimiento: destellos que recorren el conductor hacia el electrodo */
+@keyframes energia-x { to { background-position-x: 56px; } }
+@keyframes energia-x-inv { to { background-position-x: -56px; } }
+@keyframes energia-y { to { background-position-y: 40px; } }
+.energia-h {
+  background-image: linear-gradient(90deg, transparent 0 30%, rgba(255, 236, 205, 0.95) 50%, transparent 70% 100%);
+  background-size: 56px 100%;
+  filter: blur(0.6px) drop-shadow(0 0 4px rgba(255, 170, 90, 0.9));
+  animation: energia-x 0.7s linear infinite;
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.energia-h.energia-inv { animation-name: energia-x-inv; }
+.energia-v {
+  background-image: linear-gradient(180deg, transparent 0 30%, rgba(255, 236, 205, 0.95) 50%, transparent 70% 100%);
+  background-size: 100% 40px;
+  filter: blur(0.6px) drop-shadow(0 0 4px rgba(255, 170, 90, 0.9));
+  animation: energia-y 0.6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .energia-h, .energia-v { animation: none; opacity: 0; }
+}
