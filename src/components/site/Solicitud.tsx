@@ -6,7 +6,7 @@ import ElectricBorder from "@/components/ElectricBorder";
 /*
  * Solicitud de diagnóstico, dibujada como una hoja de plano:
  * marco con esquinas de registro, cabecera tipo cuadro de datos, opciones con símbolo
- * eléctrico, un interruptor para el levantamiento y casillas con rótulo.
+ * eléctrico, la pregunta del levantamiento y casillas con rótulo.
  * Dos pasos unidos por un conductor: la corriente llega hasta el paso activo.
  *
  * En la vitrina no envía nada: muestra el recorrido y el acabado.
@@ -104,7 +104,7 @@ function Casilla({
 export default function Solicitud() {
   const [paso, setPaso] = useState<1 | 2>(1);
   const [necesidad, setNecesidad] = useState<string | null>(null);
-  const [levantamiento, setLevantamiento] = useState(false);
+  const [levantamiento, setLevantamiento] = useState<boolean | null>(null);
   const [enviado, setEnviado] = useState(false);
 
   return (
@@ -244,55 +244,55 @@ export default function Solicitud() {
             </div>
           </fieldset>
 
-          {/* Interruptor: levantamiento o dictamen */}
-          <label className="flex min-h-[64px] cursor-pointer items-center gap-4 border-b border-white/12 px-5 py-3 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-orange">
-            <input
-              type="checkbox"
-              className="sr-only"
-              checked={levantamiento}
-              onChange={(e) => setLevantamiento(e.target.checked)}
-            />
-            <svg
-              viewBox="0 0 64 28"
-              aria-hidden
-              className="h-7 w-16 shrink-0"
-              fill="none"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            >
-              <path
-                d="M2 20 H20 M44 20 H62"
-                stroke={levantamiento ? "#f26b1d" : "#8fa6c7"}
-              />
-              <circle
-                cx="21"
-                cy="20"
-                r="2.4"
-                fill={levantamiento ? "#f26b1d" : "#8fa6c7"}
-              />
-              <circle
-                cx="43"
-                cy="20"
-                r="2.4"
-                fill={levantamiento ? "#f26b1d" : "#8fa6c7"}
-              />
-              <path
-                d="M21 20 L43 20"
-                stroke={levantamiento ? "#f26b1d" : "#c9d6e8"}
-                style={{
-                  transformOrigin: "21px 20px",
-                  transform: levantamiento ? "rotate(0deg)" : "rotate(-32deg)",
-                  transition: "transform .25s cubic-bezier(.3,.7,.2,1)",
-                }}
-              />
-            </svg>
-            <span className="text-[15px] text-white/85">
-              Recibí un levantamiento o dictamen de cumplimiento
-              <span className="block font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/45">
-                {levantamiento ? "Sí" : "No"}
-              </span>
-            </span>
-          </label>
+          {/* ¿Ya tiene un levantamiento o dictamen? Separa a quien llega con una revisión hecha. */}
+          <fieldset className="border-b border-white/12 px-5 py-4">
+            <legend className="float-left w-full text-[15px] text-white">
+              ¿Ya le entregaron un levantamiento o dictamen de su instalación?
+            </legend>
+            <p className="clear-both pt-1 text-sm text-white/60">
+              Es el documento que deja una revisión de cumplimiento, con las
+              observaciones por corregir. Si lo tiene, partimos de ahí.
+            </p>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              {(
+                [
+                  [true, "Sí, ya lo tengo"],
+                  [false, "No"],
+                ] as const
+              ).map(([valor, texto]) => {
+                const on = levantamiento === valor;
+                return (
+                  <label
+                    key={texto}
+                    className={`flex min-h-12 cursor-pointer items-center gap-3 border px-4 transition-colors duration-200 hover:bg-white/[0.04] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
+                      on ? "border-orange bg-orange/[0.08]" : "border-white/15"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="levantamiento"
+                      className="sr-only"
+                      checked={on}
+                      onChange={() => setLevantamiento(valor)}
+                    />
+                    <span
+                      aria-hidden
+                      className={`h-3 w-3 shrink-0 rounded-full border-2 transition-all duration-200 ${
+                        on
+                          ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
+                          : "border-white/30"
+                      }`}
+                    />
+                    <span
+                      className={`text-[15px] ${on ? "text-white" : "text-white/80"}`}
+                    >
+                      {texto}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
 
           <div className="flex items-center justify-between gap-4 px-5 py-4">
             <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/45">
