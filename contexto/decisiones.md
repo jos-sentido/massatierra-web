@@ -58,6 +58,31 @@ responder — es justo lo que la propuesta de Sentido documenta.
 Dos salidas: ajustar el copy a algo que se cumpla, o activar el CRM y el cotizador junto
 con el sitio. Publicarla sin respaldo es fabricar una queja.
 
+### 8. Cómo se enuncia el claim de 2 Ω
+
+El claim no dice lo mismo en todas las fuentes:
+- **Brief / material comercial:** *«2 Ω garantizados por escrito durante 20 años, llave en mano.»*
+- **Contenido heredado:** *«Nuestro objetivo de diseño es alcanzar una resistencia a tierra
+  **menor a 2 Ω**… Los valores comprometidos… se establecen en la documentación de cada
+  proyecto.»*
+
+No es lo mismo un valor garantizado que un objetivo de diseño. Además, «2 Ω» y «menor a
+2 Ω» tampoco son el mismo valor. Es justo el tipo de cifra que el sitio no puede
+publicar mal. Hay que confirmar con Massatierra la redacción exacta que respalda su
+contrato de garantía. Bloquea Inicio, `/tecnologia/garantia` y los términos de garantía.
+*(Detectado 2026-11-23 al auditar la estructura.)*
+
+### 9. Supresores de pico
+
+El heredado tiene una página completa de supresores, pero **no aparecen** en el CV, el
+brochure ni el deck. Hay que confirmar si los venden o integran antes de publicar la página.
+
+### 10. La UVIE: ¿propia o aliada?
+
+El deck dice que el dictamen lleva *«firma de verificador acreditado»*. Para la sección de
+cumplimiento hace falta saber si la UVIE es de Massatierra o de un aliado, qué normas cubre
+el dictamen y ante quién vale. Sin eso, `/cumplimiento/dictamen-uvie` no se escribe.
+
 ## 📐 De arquitectura
 
 ### 6. La ruta de cumplimiento normativo
@@ -68,6 +93,8 @@ aterriza el tráfico de mayor intención comercial (ver `brief.md` → UVIE, y e
 
 Propuesta: abrir una sección propia que hable el idioma del dictamen —no el del catálogo—
 y que sea el destino de las campañas de captura.
+→ **Ya está aterrizada** en [`estructura-sitio.md`](estructura-sitio.md) (`/cumplimiento`
+y sus 3 páginas). Falta validarla con Mauro.
 
 ### 7. Alcance del sitio vs. el cotizador
 

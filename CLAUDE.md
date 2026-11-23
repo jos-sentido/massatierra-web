@@ -8,6 +8,7 @@ Sitio oficial de Massatierra. **Lee `contexto/` antes de escribir una línea.**
 2. [`contexto/decisiones.md`](contexto/decisiones.md) — **lo que está abierto y bloquea contenido.**
 3. [`contexto/fuentes.md`](contexto/fuentes.md) — qué documentos dio el cliente y qué vale de cada uno.
 4. [`contexto/contenido-heredado.md`](contexto/contenido-heredado.md) — el copy del proveedor anterior.
+5. [`contexto/estructura-sitio.md`](contexto/estructura-sitio.md) — **el mapa del sitio nuevo**, auditado.
 
 ## Dos reglas que no se rompen
 
