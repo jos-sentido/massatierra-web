@@ -4,9 +4,8 @@ import { useState } from "react";
 import CountUp from "@/components/CountUp";
 import DecryptedText from "@/components/DecryptedText";
 import ElectricBorder from "@/components/ElectricBorder";
-import HeroVideo from "@/components/site/HeroVideo";
+import HeroSistema from "@/components/site/HeroSistema";
 import Sectores, { type Sector } from "@/components/site/Sectores";
-import RayoAlSistema, { type Sistema } from "@/components/site/RayoAlSistema";
 import LogoLoop from "@/components/LogoLoop";
 import MagnetLines from "@/components/MagnetLines";
 import SplitText from "@/components/SplitText";
@@ -16,36 +15,6 @@ import Topography from "@/components/Topography";
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const ORANGE = "#f26b1d";
 const COPPER = "#e0a06a";
-
-// Dónde está el sistema dentro de cada video (0–1). Si cambia el video, se recalibra.
-const SISTEMA_H: Sistema = {
-  aspecto: 1912 / 1080,
-  posicion: [0.68, 0.5],
-  punta: [0.689, 0.153],
-  recorrido: [
-    [0.689, 0.153],
-    [0.689, 0.31],
-    [0.691, 0.585],
-    [0.678, 0.64],
-    [0.677, 0.9],
-  ],
-  tierra: [0.677, 0.86],
-  horizonte: 0.61,
-};
-const SISTEMA_V: Sistema = {
-  aspecto: 1080 / 1912,
-  posicion: [0.5, 0],
-  punta: [0.494, 0.136],
-  recorrido: [
-    [0.494, 0.136],
-    [0.495, 0.3],
-    [0.518, 0.335],
-    [0.518, 0.69],
-    [0.518, 0.868],
-  ],
-  tierra: [0.518, 0.85],
-  horizonte: 0.62,
-};
 
 const AVALES = ["NOM", "ANCE", "NMX", "IEEE", "ABNT", "SEC", "IMPI"];
 
@@ -149,22 +118,8 @@ export default function Vitrina() {
     <main className="bg-[#050d1c] text-white">
       {/* 1 · HERO */}
       <section className="relative isolate flex min-h-[min(92svh,860px)] items-center overflow-hidden max-md:min-h-[100svh] max-md:items-end">
-        <div className="absolute inset-0 -z-20">
-          <HeroVideo
-            src={`${BASE}/lab/hero.mp4`}
-            srcVertical={`${BASE}/lab/hero-vertical.mp4`}
-            poster={`${BASE}/lab/hero-poster.jpg`}
-            posterVertical={`${BASE}/lab/hero-vertical-poster.jpg`}
-            label="Video conceptual: un rayo cae en la punta pararrayos; la energía baja por la conducción y se disipa en el electrodo bajo tierra"
-            className="object-[68%_50%] max-md:object-top"
-          />
-        </div>
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#050d1c]/95 via-[#050d1c]/65 to-transparent max-md:bg-gradient-to-t max-md:from-[#050d1c] max-md:from-30% max-md:via-[#050d1c]/55 max-md:via-55% max-md:to-transparent" />
-        <RayoAlSistema
-          className="-z-10"
-          horizontal={SISTEMA_H}
-          vertical={SISTEMA_V}
-        />
+        <HeroSistema className="-z-20" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#040a17]/90 via-[#040a17]/45 to-transparent max-lg:via-[#040a17]/70 max-md:bg-gradient-to-t max-md:from-[#040a17] max-md:from-25% max-md:via-[#040a17]/60 max-md:via-50% max-md:to-transparent" />
         <div className="mx-auto w-full max-w-6xl px-6 py-24 max-md:pb-14 max-md:pt-0">
           <div className="max-w-xl">
             <Etiqueta n="01">Tierras físicas y pararrayos</Etiqueta>
