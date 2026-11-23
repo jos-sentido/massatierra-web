@@ -90,6 +90,12 @@ export default function Encabezado({ demo = false }: { demo?: boolean }) {
           : "border-b border-transparent"
       }`}
     >
+      {fondo && (
+        <span
+          aria-hidden
+          className="energia-filo pointer-events-none absolute inset-x-0 -bottom-px h-px"
+        />
+      )}
       <div className="mx-auto flex h-[68px] max-w-7xl items-center gap-5 px-6">
         <Link
           href="/"
@@ -115,7 +121,11 @@ export default function Encabezado({ demo = false }: { demo?: boolean }) {
                   className={`absolute inset-x-3 bottom-[-1px] h-[2px] origin-left bg-orange shadow-[0_0_10px_1px_rgba(242,107,29,.7)] transition-transform duration-300 motion-reduce:transition-none ${
                     on ? "scale-x-100" : "scale-x-0"
                   }`}
-                />
+                >
+                  {on && (
+                    <span className="energia-h absolute inset-x-0 -top-[2px] h-[6px]" />
+                  )}
+                </span>
               );
               return (
                 <li
@@ -318,8 +328,14 @@ function Panel({
             <a
               href={h.href}
               onClick={ir}
-              className="group flex min-h-[58px] items-center gap-3 py-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+              className="group relative flex min-h-[58px] items-center gap-3 py-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
             >
+              <span
+                aria-hidden
+                className="absolute inset-x-0 -bottom-px h-[2px] origin-left scale-x-0 bg-orange shadow-[0_0_10px_1px_rgba(242,107,29,.6)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+              >
+                <span className="energia-h absolute inset-x-0 -top-[2px] h-[6px]" />
+              </span>
               <Nodo />
               <span>
                 <span className="block text-[15px] font-medium text-white/90 transition-colors group-hover:text-white">
