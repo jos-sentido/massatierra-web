@@ -332,10 +332,8 @@ function Panel({
             >
               <span
                 aria-hidden
-                className="absolute inset-x-0 -bottom-px h-[2px] origin-left scale-x-0 bg-orange shadow-[0_0_10px_1px_rgba(242,107,29,.6)] transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
-              >
-                <span className="energia-h absolute inset-x-0 -top-[2px] h-[6px]" />
-              </span>
+                className="absolute inset-x-0 -bottom-px h-[2px] origin-left scale-x-0 bg-orange transition-transform duration-300 group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+              />
               <Nodo />
               <span>
                 <span className="block text-[15px] font-medium text-white/90 transition-colors group-hover:text-white">
