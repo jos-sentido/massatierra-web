@@ -154,7 +154,15 @@ unidad verificadora · otro) y **si tiene plazo** para corregir; si no, nunca lo
 necesidad → levantamiento → (quién revisó → plazo) → tipo de instalación → etapa (obra nueva ·
 ampliación · operando) → ciudad → nombre y empresa → teléfono y canal preferido (WhatsApp ·
 llamada) → hoja de resumen. **El documento que se guarda debe traer estos campos** en ambos
-formatos, y la guiada registra en qué pregunta se abandona.
+formatos, y la guiada registra en qué pregunta se abandona. El formulario clásico ya pide los
+mismos campos (la rama del levantamiento aparece en línea al responder «Sí»); las opciones
+viven en `components/site/solicitud-datos.ts`, una sola fuente para los dos.
+
+**Varias soluciones a la vez.** «¿Qué necesita?» es de selección múltiple (p. ej. puesta a
+tierra + pararrayos): en el documento se guarda como **lista**, no como un valor. La excepción
+es «Orientación para definir la solución», que significa «no sé qué necesito» y excluye a las
+demás. Cuando llegue el cotizador, una solicitud con varias soluciones debe poder cotizarse
+como un solo proyecto.
 
 **Formulario de soporte** (`/soporte`): los campos del heredado, a otra colección.
 

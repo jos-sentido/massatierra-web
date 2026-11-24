@@ -2,6 +2,16 @@
 
 import { useId, useState } from "react";
 import ElectricBorder from "@/components/ElectricBorder";
+import {
+  alternar,
+  CANALES,
+  CON_LEVANTAMIENTO,
+  ETAPAS,
+  LEVANTAMIENTO,
+  PLAZO,
+  REVISO,
+  SECTORES,
+} from "@/components/site/solicitud-datos";
 
 /*
  * Solicitud de diagnóstico, dibujada como una hoja de plano:
@@ -110,11 +120,91 @@ function Casilla({
   );
 }
 
+/* Nodo del circuito: redondo si se elige una, cuadrado si se pueden elegir varias. */
+function Nodo({ on, varias = false }: { on: boolean; varias?: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`grid h-3.5 w-3.5 shrink-0 place-items-center border-2 transition-all duration-200 ${
+        varias ? "rounded-[3px]" : "rounded-full"
+      } ${
+        on
+          ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
+          : "border-[#6c84a8]"
+      }`}
+    />
+  );
+}
+
+/* Grupo de opciones de una sola respuesta, con la superficie de campo. */
+function Opciones({
+  nombre,
+  pregunta,
+  opciones,
+  valor,
+  cambiar,
+  columnas = "sm:grid-cols-3",
+}: {
+  nombre: string;
+  pregunta: string;
+  opciones: string[];
+  valor: string | null;
+  cambiar: (v: string) => void;
+  columnas?: string;
+}) {
+  return (
+    <fieldset>
+      <legend className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#9fb3d1]">
+        {pregunta}
+      </legend>
+      <div className={`mt-2 grid gap-2 ${columnas}`}>
+        {opciones.map((o) => {
+          const on = valor === o;
+          return (
+            <label
+              key={o}
+              className={`flex min-h-11 cursor-pointer items-center gap-3 px-3.5 text-[15px] transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
+                on ? `${CAMPO_ON} text-white` : `${CAMPO} text-white/85`
+              }`}
+            >
+              <input
+                type="radio"
+                name={nombre}
+                className="sr-only"
+                checked={on}
+                onChange={() => cambiar(o)}
+              />
+              <Nodo on={on} />
+              {o}
+            </label>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
 export default function Solicitud() {
   const [paso, setPaso] = useState<1 | 2>(1);
-  const [necesidad, setNecesidad] = useState<string | null>(null);
-  const [levantamiento, setLevantamiento] = useState<boolean | null>(null);
+  const [necesidades, setNecesidades] = useState<string[]>([]);
+  const [levantamiento, setLevantamiento] = useState<string | null>(null);
+  const [reviso, setReviso] = useState<string | null>(null);
+  const [plazo, setPlazo] = useState<string | null>(null);
+  const [sector, setSector] = useState("");
+  const [etapa, setEtapa] = useState<string | null>(null);
+  const [canal, setCanal] = useState<string | null>("WhatsApp");
   const [enviado, setEnviado] = useState(false);
+  const sectorId = useId();
+  const conLevantamiento = levantamiento === CON_LEVANTAMIENTO;
+
+  const elegirLevantamiento = (v: string) => {
+    setLevantamiento(v);
+    // Si deja de tener levantamiento, lo que se preguntó por él ya no aplica.
+    if (v !== CON_LEVANTAMIENTO) {
+      setReviso(null);
+      setPlazo(null);
+    }
+  };
 
   return (
     <div className="relative border border-white/12 bg-[#07101f]">
@@ -163,7 +253,7 @@ export default function Solicitud() {
                   {n}
                 </span>
                 <span className="sr-only">
-                  {n === 1 ? "Qué necesita" : "Sus datos"}
+                  {n === 1 ? "Qué necesita" : "Su instalación y sus datos"}
                 </span>
               </li>
             );
@@ -202,11 +292,14 @@ export default function Solicitud() {
         <div>
           <fieldset>
             <legend className="px-5 pt-4 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55">
-              ¿Qué necesita?
+              ¿Qué necesita?{" "}
+              <span className="normal-case tracking-normal text-white/40">
+                Puede elegir varias
+              </span>
             </legend>
             <div className="mt-3 grid gap-2 px-5 pb-4 sm:grid-cols-2">
               {NECESIDADES.map((o, i) => {
-                const on = necesidad === o.id;
+                const on = necesidades.includes(o.titulo);
                 return (
                   <label
                     key={o.id}
@@ -215,11 +308,13 @@ export default function Solicitud() {
                     } ${i === NECESIDADES.length - 1 ? "sm:col-span-2" : ""}`}
                   >
                     <input
-                      type="radio"
+                      type="checkbox"
                       name="necesidad"
                       className="sr-only"
                       checked={on}
-                      onChange={() => setNecesidad(o.id)}
+                      onChange={() =>
+                        setNecesidades((l) => alternar(l, o.titulo))
+                      }
                     />
                     <svg
                       viewBox="0 0 32 32"
@@ -238,64 +333,9 @@ export default function Solicitud() {
                     >
                       {o.titulo}
                     </span>
-                    {/* Nodo: se cierra el circuito al elegir */}
-                    <span
-                      aria-hidden
-                      className={`ml-auto h-3 w-3 shrink-0 rounded-full border-2 transition-all duration-200 ${
-                        on
-                          ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
-                          : "border-[#6c84a8]"
-                      }`}
-                    />
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {/* ¿Ya tiene un levantamiento o dictamen? Separa a quien llega con una revisión hecha. */}
-          <fieldset className="border-y border-white/12 px-5 py-4">
-            <legend className="float-left w-full text-[15px] text-white">
-              ¿Ya le entregaron un levantamiento o dictamen de su instalación?
-            </legend>
-            <p className="clear-both pt-1 text-sm text-white/60">
-              Es el documento que deja una revisión de cumplimiento, con las
-              observaciones por corregir. Si lo tiene, partimos de ahí.
-            </p>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              {(
-                [
-                  [true, "Sí, ya lo tengo"],
-                  [false, "No"],
-                ] as const
-              ).map(([valor, texto]) => {
-                const on = levantamiento === valor;
-                return (
-                  <label
-                    key={texto}
-                    className={`flex min-h-12 cursor-pointer items-center gap-3 px-4 transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
-                      on ? CAMPO_ON : CAMPO
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="levantamiento"
-                      className="sr-only"
-                      checked={on}
-                      onChange={() => setLevantamiento(valor)}
-                    />
-                    <span
-                      aria-hidden
-                      className={`h-3 w-3 shrink-0 rounded-full border-2 transition-all duration-200 ${
-                        on
-                          ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
-                          : "border-[#6c84a8]"
-                      }`}
-                    />
-                    <span
-                      className={`text-[15px] ${on ? "text-white" : "text-white/80"}`}
-                    >
-                      {texto}
+                    {/* Nodo cuadrado: se pueden cerrar varios circuitos */}
+                    <span className="ml-auto">
+                      <Nodo on={on} varias />
                     </span>
                   </label>
                 );
@@ -303,13 +343,53 @@ export default function Solicitud() {
             </div>
           </fieldset>
 
+          {/* ¿Ya tiene un levantamiento o dictamen? Separa a quien llega con una revisión hecha. */}
+          <div className="grid gap-4 border-y border-white/12 px-5 py-4">
+            <div>
+              <p className="text-[15px] text-white">
+                ¿Ya le entregaron un levantamiento o dictamen de su instalación?
+              </p>
+              <p className="pt-1 text-sm text-white/60">
+                Es el documento que deja una revisión de cumplimiento, con las
+                observaciones por corregir. Si lo tiene, partimos de ahí.
+              </p>
+            </div>
+            <Opciones
+              nombre="levantamiento"
+              pregunta="Levantamiento o dictamen"
+              opciones={LEVANTAMIENTO}
+              valor={levantamiento}
+              cambiar={elegirLevantamiento}
+            />
+            {/* Solo para quien ya lo tiene */}
+            {conLevantamiento && (
+              <div className="guiada-entra grid gap-4 border-l-2 border-orange/60 pl-4">
+                <Opciones
+                  nombre="reviso"
+                  pregunta="¿Quién hizo la revisión?"
+                  opciones={REVISO}
+                  valor={reviso}
+                  cambiar={setReviso}
+                  columnas="sm:grid-cols-2"
+                />
+                <Opciones
+                  nombre="plazo"
+                  pregunta="¿Le dieron un plazo para corregir?"
+                  opciones={PLAZO}
+                  valor={plazo}
+                  cambiar={setPlazo}
+                />
+              </div>
+            )}
+          </div>
+
           <div className="flex items-center justify-between gap-4 px-5 py-4">
             <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/45">
               Paso 1 de 2
             </p>
             <button
               type="button"
-              disabled={!necesidad}
+              disabled={!necesidades.length}
               onClick={() => setPaso(2)}
               className="min-h-12 cursor-pointer rounded-[12px] bg-orange px-6 text-[15px] font-bold text-[#1a0d05] transition-[transform,opacity] duration-200 hover:-translate-y-px active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             >
@@ -325,6 +405,52 @@ export default function Solicitud() {
           }}
         >
           <p className="px-5 pt-4 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55">
+            Su instalación
+          </p>
+          <div className="mt-3 grid gap-2 px-5 sm:grid-cols-2">
+            <div
+              className={`group relative ${CAMPO} px-4 pb-3 pt-2.5 transition-colors duration-200 focus-within:border-orange/70 focus-within:bg-[#142742]`}
+            >
+              <label
+                htmlFor={sectorId}
+                className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#9fb3d1]"
+              >
+                Tipo de instalación
+              </label>
+              <select
+                id={sectorId}
+                name="sector"
+                value={sector}
+                onChange={(e) => setSector(e.target.value)}
+                className="mt-1 block h-8 w-full cursor-pointer bg-transparent text-base text-white outline-none [&>option]:bg-[#0f1e36]"
+              >
+                <option value="" disabled>
+                  Elija una
+                </option>
+                {SECTORES.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Casilla
+              rotulo="Ciudad de la instalación"
+              name="ciudad"
+              placeholder="Ciudad y estado"
+            />
+          </div>
+          <div className="mt-3 px-5">
+            <Opciones
+              nombre="etapa"
+              pregunta="¿En qué etapa está?"
+              opciones={ETAPAS}
+              valor={etapa}
+              cambiar={setEtapa}
+            />
+          </div>
+
+          <p className="mt-5 border-t border-white/12 px-5 pt-4 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55">
             Sus datos
           </p>
           <div className="mt-3 grid gap-2 px-5 sm:grid-cols-2">
@@ -345,10 +471,24 @@ export default function Solicitud() {
               type="tel"
               autoComplete="tel"
               required
+              ancho="sm:col-span-2"
             />
-            <Casilla rotulo="Ciudad de la instalación" name="ciudad" />
           </div>
-          <div className="flex items-center justify-between gap-4 px-5 py-4">
+          <div className="mt-3 px-5">
+            <Opciones
+              nombre="canal"
+              pregunta="¿Por dónde prefiere que le contactemos?"
+              opciones={CANALES}
+              valor={canal}
+              cambiar={setCanal}
+              columnas="grid-cols-2"
+            />
+            <p className="mt-2 text-xs text-white/45">
+              Al enviar acepta el Aviso de privacidad.
+            </p>
+          </div>
+
+          <div className="mt-2 flex items-center justify-between gap-4 px-5 py-4">
             <button
               type="button"
               onClick={() => setPaso(1)}

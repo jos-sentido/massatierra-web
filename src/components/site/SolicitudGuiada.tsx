@@ -9,6 +9,17 @@ import {
   Esquinas,
   NECESIDADES,
 } from "@/components/site/Solicitud";
+import {
+  alternar,
+  CANALES,
+  CON_LEVANTAMIENTO as SI_LEVANTAMIENTO,
+  ETAPAS,
+  LEVANTAMIENTO,
+  ORIENTACION,
+  PLAZO,
+  REVISO,
+  SECTORES,
+} from "@/components/site/solicitud-datos";
 
 /*
  * Solicitud guiada: el mismo formulario de diagnóstico, una pregunta a la vez.
@@ -30,7 +41,7 @@ type Paso = {
   rotulo: string;
   pregunta: string;
   ayuda?: string;
-  tipo: "opciones" | "texto" | "datos" | "contacto";
+  tipo: "opciones" | "varias" | "texto" | "datos" | "contacto";
   opciones?: string[];
   conIconos?: boolean;
   placeholder?: string;
@@ -38,15 +49,15 @@ type Paso = {
   cuando?: (r: Respuestas) => boolean;
 };
 
-const CON_LEVANTAMIENTO = (r: Respuestas) =>
-  r.levantamiento === "Sí, ya lo tengo";
+const CON_LEVANTAMIENTO = (r: Respuestas) => r.levantamiento === SI_LEVANTAMIENTO;
 
 const PASOS: Paso[] = [
   {
     id: "necesidad",
     rotulo: "Necesidad",
     pregunta: "¿Qué necesita proteger o resolver?",
-    tipo: "opciones",
+    ayuda: "Puede elegir varias.",
+    tipo: "varias",
     opciones: NECESIDADES.map((n) => n.titulo),
     conIconos: true,
   },
@@ -57,14 +68,14 @@ const PASOS: Paso[] = [
     ayuda:
       "Es el documento que deja una revisión de cumplimiento, con las observaciones por corregir.",
     tipo: "opciones",
-    opciones: ["Sí, ya lo tengo", "No", "No estoy seguro"],
+    opciones: LEVANTAMIENTO,
   },
   {
     id: "reviso",
     rotulo: "Lo revisó",
     pregunta: "¿Quién hizo la revisión?",
     tipo: "opciones",
-    opciones: ["Protección Civil", "STPS", "Una unidad verificadora", "Otro"],
+    opciones: REVISO,
     cuando: CON_LEVANTAMIENTO,
   },
   {
@@ -72,7 +83,7 @@ const PASOS: Paso[] = [
     rotulo: "Plazo",
     pregunta: "¿Le dieron un plazo para corregir las observaciones?",
     tipo: "opciones",
-    opciones: ["Sí, tengo fecha", "No", "No lo sé"],
+    opciones: PLAZO,
     cuando: CON_LEVANTAMIENTO,
   },
   {
@@ -80,23 +91,14 @@ const PASOS: Paso[] = [
     rotulo: "Instalación",
     pregunta: "¿Qué tipo de instalación es?",
     tipo: "opciones",
-    opciones: [
-      "Industria y manufactura",
-      "Hotelería",
-      "Hospital o clínica",
-      "Telecom o centro de datos",
-      "Construcción",
-      "Comercio y servicios",
-      "Minería",
-      "Otra",
-    ],
+    opciones: SECTORES,
   },
   {
     id: "etapa",
     rotulo: "Etapa",
     pregunta: "¿En qué etapa está?",
     tipo: "opciones",
-    opciones: ["Obra nueva", "Ampliación", "Ya está operando"],
+    opciones: ETAPAS,
   },
   {
     id: "ciudad",
@@ -116,7 +118,7 @@ const PASOS: Paso[] = [
     rotulo: "Teléfono",
     pregunta: "¿A qué número le contactamos?",
     tipo: "contacto",
-    opciones: ["WhatsApp", "Llamada"],
+    opciones: CANALES,
   },
 ];
 
@@ -297,6 +299,49 @@ function Entrada({ paso, responder }: { paso: Paso; responder: (id: string, valo
   const [a, setA] = useState("");
   const [b, setB] = useState("");
   const [canal, setCanal] = useState("WhatsApp");
+  const [elegidas, setElegidas] = useState<string[]>([]);
+
+  if (paso.tipo === "varias") {
+    return (
+      <div className="grid gap-3">
+        <div className="grid gap-2 sm:grid-cols-2">
+          {paso.opciones!.map((o) => {
+            const on = elegidas.includes(o);
+            return (
+              <button
+                key={o}
+                type="button"
+                aria-pressed={on}
+                onClick={() => setElegidas((l) => alternar(l, o))}
+                className={`group flex min-h-12 cursor-pointer items-center gap-3 px-4 py-2.5 text-left text-[15px] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
+                  on ? `${CAMPO_ON} text-white` : `${CAMPO} text-white/85 hover:text-white`
+                } ${o === ORIENTACION ? "sm:col-span-2" : ""}`}
+              >
+                {paso.conIconos && <Icono titulo={o} />}
+                <span>{o}</span>
+                <span
+                  aria-hidden
+                  className={`ml-auto h-3.5 w-3.5 shrink-0 rounded-[3px] border-2 transition-all duration-200 ${
+                    on
+                      ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
+                      : "border-[#6c84a8]"
+                  }`}
+                />
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex items-center justify-end gap-3">
+          <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-white/45">
+            {elegidas.length ? `${elegidas.length} elegida${elegidas.length > 1 ? "s" : ""}` : "Elija al menos una"}
+          </span>
+          <button type="button" disabled={!elegidas.length} onClick={() => responder(paso.id, elegidas.join(" + "))} className={BOTON}>
+            Continuar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (paso.tipo === "opciones") {
     const anchas = (paso.opciones?.length ?? 0) > 3;
