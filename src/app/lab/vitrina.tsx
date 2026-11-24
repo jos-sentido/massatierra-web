@@ -1,9 +1,12 @@
 "use client";
 
 import {
+  Atom01Icon,
   Call02Icon,
   Clock01Icon,
+  FlashIcon,
   WhatsappIcon,
+  Wrench01Icon,
 } from "@hugeicons/core-free-icons";
 import CountUp from "@/components/CountUp";
 import DecryptedText from "@/components/DecryptedText";
@@ -232,9 +235,9 @@ export default function Vitrina() {
               <div className="mt-8 max-w-md">
                 <Ficha
                   renglones={[
-                    ["Impedancia", "Baja"],
-                    ["Mantenimiento", "Libre de mantenimiento"],
-                    ["Material", "100% cobre electrolítico"],
+                    ["Impedancia", "Baja", FlashIcon],
+                    ["Mantenimiento", "Libre de mantenimiento", Wrench01Icon],
+                    ["Material", "100% cobre electrolítico", Atom01Icon],
                   ]}
                 />
               </div>
