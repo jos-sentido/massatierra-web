@@ -19,13 +19,20 @@ import HeroPlano from "./HeroPlano";
  */
 
 // Geometría de la escena, en unidades del viewBox (1600 × 900).
-const X = 1020; // eje del sistema
+const X = 1330; // eje del sistema: cara exterior de la columna derecha del pórtico
 const PUNTA: [number, number] = [X, 262];
 const TIERRA: [number, number] = [X, 692];
 const RECORRIDO = `M${X} 262 L${X} 590 L${X} 692`;
 
+// Las tres partes del sistema: [altura, número, parte, componente].
+const NOTAS: [number, string, string, string][] = [
+  [282, "01", "CAPTACIÓN", "PUNTA MTPP02"],
+  [452, "02", "CONDUCCIÓN", "BAJANTE DE COBRE"],
+  [642, "03", "PUESTA A TIERRA", "ELECTRODO MAGNETO ACTIVO"],
+];
+
 const VB_ANCHO = "0 0 1600 900";
-const VB_ALTO = "760 170 520 730";
+const VB_ALTO = "1050 170 520 730";
 
 type Pt = { x: number; y: number };
 type Rama = { pts: Pt[]; ancho: number; desde: number; rama: boolean };
@@ -352,7 +359,7 @@ export default function HeroSistema({
         viewBox={VB_ANCHO}
         preserveAspectRatio="xMaxYMid slice"
         role="img"
-        aria-label="Dibujo técnico: un rayo cae en la punta pararrayos de una nave industrial, la energía baja por la conducción y se disipa en el terreno desde el electrodo"
+        aria-label="Dibujo técnico: un rayo cae en la punta pararrayos de una subestación con transformador, generador y tablero; la energía baja por la conducción y se disipa en el terreno desde el electrodo"
         className="hero-sistema absolute inset-0 h-full w-full"
       >
         <defs>
@@ -491,7 +498,7 @@ export default function HeroSistema({
             {...linea}
           />
           <g stroke={cobre} strokeWidth="1.2" opacity="0.8" {...linea}>
-            <path d="M1014 380 h12 M1014 450 h12 M1014 520 h12" />
+            <path d={`M${X - 6} 400 h12 M${X - 6} 470 h12 M${X - 6} 530 h12`} />
           </g>
           {/* Punta: mástil corto, cuerpo central y tres laterales */}
           <path
@@ -558,50 +565,46 @@ export default function HeroSistema({
             style={{ transformBox: "fill-box", transformOrigin: "center" }}
           />
 
-          {/* Anotaciones técnicas */}
+          {/* Anotaciones técnicas: salen hacia la derecha, nunca hacia los textos */}
           <g
             className="hs-notas"
             fontFamily="var(--font-mono, ui-monospace), monospace"
             fontSize="13"
             letterSpacing="1.6"
           >
-            <g stroke={cobre} strokeWidth="1" opacity="0.75" {...linea}>
-              <path d="M1008 278 H900 M1012 450 H900 M1000 640 H900" />
-            </g>
-            <g fill={cobre}>
-              <circle cx="1008" cy="278" r="2" />
-              <circle cx="1012" cy="450" r="2" />
-              <circle cx="1000" cy="640" r="2" />
-            </g>
-            <g textAnchor="end">
-              <text x="890" y="275">
-                <tspan fill="#f26b1d">01</tspan>
-                <tspan fill="#dfe7f2" dx="8">
-                  CAPTACIÓN
-                </tspan>
-              </text>
-              <text x="890" y="293" fill="#9fb0c8" fontSize="11">
-                PUNTA MTPP02
-              </text>
-              <text x="890" y="447">
-                <tspan fill="#f26b1d">02</tspan>
-                <tspan fill="#dfe7f2" dx="8">
-                  CONDUCCIÓN
-                </tspan>
-              </text>
-              <text x="890" y="465" fill="#9fb0c8" fontSize="11">
-                BAJANTE DE COBRE
-              </text>
-              <text x="890" y="637">
-                <tspan fill="#f26b1d">03</tspan>
-                <tspan fill="#dfe7f2" dx="8">
-                  PUESTA A TIERRA
-                </tspan>
-              </text>
-              <text x="890" y="655" fill="#9fb0c8" fontSize="11">
-                ELECTRODO MAGNETO ACTIVO
-              </text>
-            </g>
+            {NOTAS.map(([y, n, titulo, sub]) => (
+              <g key={n}>
+                <rect
+                  x={X + 34}
+                  y={y - 22}
+                  width="224"
+                  height="44"
+                  rx="3"
+                  fill="#050d1c"
+                  fillOpacity="0.86"
+                  stroke={cobre}
+                  strokeOpacity="0.28"
+                  {...{ vectorEffect: "non-scaling-stroke" as const }}
+                />
+                <path
+                  d={`M${X + 4} ${y} H${X + 34}`}
+                  stroke={cobre}
+                  strokeWidth="1"
+                  opacity="0.75"
+                  {...linea}
+                />
+                <circle cx={X + 4} cy={y} r="2" fill={cobre} />
+                <text x={X + 46} y={y - 3}>
+                  <tspan fill="#f26b1d">{n}</tspan>
+                  <tspan fill="#dfe7f2" dx="8">
+                    {titulo}
+                  </tspan>
+                </text>
+                <text x={X + 46} y={y + 13} fill="#9fb0c8" fontSize="11">
+                  {sub}
+                </text>
+              </g>
+            ))}
           </g>
         </g>
       </svg>

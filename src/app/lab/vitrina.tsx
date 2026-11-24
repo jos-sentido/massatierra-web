@@ -171,6 +171,15 @@ export default function Vitrina() {
                   Hablar con un especialista
                 </button>
               </div>
+              {/* En pantallas chicas las notas del plano se ocultan: aquí va la secuencia */}
+              <ol className="mt-7 grid max-w-sm grid-cols-3 gap-3 font-mono text-[10px] uppercase tracking-[0.1em] text-white/65 lg:hidden">
+                {["Captación", "Conducción", "Puesta a tierra"].map((t, i) => (
+                  <li key={t} className="border-t border-[#d9955f]/50 pt-2">
+                    <span className="block text-orange">0{i + 1}</span>
+                    {t}
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
           <Nota>Haga clic en el cielo: el rayo va al sistema</Nota>
