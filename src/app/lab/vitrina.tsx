@@ -26,7 +26,17 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const ORANGE = "#f26b1d";
 const COPPER = "#e0a06a";
 
-const AVALES = ["NOM", "ANCE", "NMX", "IEEE", "ABNT", "SEC", "IMPI"];
+// La sigla sola no le dice nada a la mayoría: cada una lleva su bajada
+// siempre visible (sin depender del cursor, que en el celular no existe).
+const AVALES: [string, string][] = [
+  ["NOM", "Norma oficial mexicana"],
+  ["ANCE", "Certificación eléctrica"],
+  ["NMX", "Norma mexicana"],
+  ["IEEE", "Estándar internacional"],
+  ["ABNT", "Aval en Brasil"],
+  ["SEC", "Aval en Chile"],
+  ["IMPI", "Patente registrada"],
+];
 
 const SECTORES: Sector[] = [
   {
@@ -201,17 +211,22 @@ export default function Vitrina() {
           <div className="border-t border-white/10 py-5">
             <LogoLoop
               ariaLabel="Normas y avales"
-              logos={AVALES.map((a) => ({
+              logos={AVALES.map(([sigla, que]) => ({
                 node: (
-                  <span className="font-mono text-lg font-medium tracking-[0.2em] text-white/75">
-                    {a}
+                  <span className="flex flex-col items-center gap-1.5 leading-none">
+                    <span className="font-mono text-lg font-medium tracking-[0.2em] text-white/80">
+                      {sigla}
+                    </span>
+                    <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.14em] text-white/45">
+                      {que}
+                    </span>
                   </span>
                 ),
-                title: a,
+                title: `${sigla} · ${que}`,
               }))}
               speed={45}
               gap={72}
-              logoHeight={28}
+              logoHeight={44}
               fadeOut
               fadeOutColor="#081428"
               pauseOnHover
