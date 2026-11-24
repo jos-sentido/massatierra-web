@@ -129,29 +129,29 @@ export default function Sectores({ sectores }: { sectores: Sector[] }) {
             className={`energia-h absolute inset-x-0 -top-[2px] h-[6px] ${haciaIzquierda(activo, sectores.length) ? "energia-inv" : ""}`}
           />
         </div>
-        {/* Electrodo: mismo trazo que el del hero. Los anillos pulsan al cambiar de sector. */}
+        {/* Electrodo: mismo trazo que el del hero. La disipación baja desde la punta al cambiar de sector. */}
         <svg
           viewBox="0 0 520 150"
           className="absolute left-1/2 top-0 h-[150px] w-[520px] -translate-x-1/2 overflow-visible"
           fill="none"
         >
-          {/* Disipación en reposo */}
-          <g stroke="#d9955f" strokeWidth="1" opacity="0.28">
-            <ellipse cx="260" cy="112" rx="60" ry="14" />
-            <ellipse cx="260" cy="112" rx="125" ry="26" />
-            <ellipse cx="260" cy="112" rx="195" ry="36" />
-            <ellipse cx="260" cy="112" rx="258" ry="44" />
+          {/* Disipación en reposo: drenado hacia abajo desde la punta (nunca en ondas) */}
+          <g stroke="#d9955f" strokeWidth="1" opacity="0.35" strokeLinecap="round">
+            {DRENADO.map((d) => (
+              <path key={d} d={d} />
+            ))}
           </g>
-          {/* Disipación activa */}
+          {/* Disipación activa: baja por las mismas líneas al cambiar de sector */}
           <g
             key={activo}
             stroke="#ff9a4d"
             strokeWidth="1.5"
+            strokeLinecap="round"
             className="sectores-pulso"
           >
-            <ellipse cx="260" cy="112" rx="258" ry="44" />
-            <ellipse cx="260" cy="112" rx="258" ry="44" />
-            <ellipse cx="260" cy="112" rx="258" ry="44" />
+            {DRENADO.map((d) => (
+              <path key={d} d={d} pathLength={100} />
+            ))}
           </g>
           {/* Conexión a la barra */}
           <path d="M260 0 V30" stroke="#d9955f" strokeWidth="1.6" />
@@ -182,6 +182,11 @@ export default function Sectores({ sectores }: { sectores: Sector[] }) {
     </div>
   );
 }
+
+/** Líneas de drenado: salen de la punta del cono (260,124) hacia abajo. */
+const DRENADO = [-30, -15, -5, 5, 15, 30].map(
+  (d) => `M${260 + d * 0.12} 128 Q${260 + d * 0.35} 150 ${260 + d} 176`,
+);
 
 /** El sector activo queda a la derecha del electrodo: la energía viaja hacia la izquierda. */
 function haciaIzquierda(activo: number, n: number) {

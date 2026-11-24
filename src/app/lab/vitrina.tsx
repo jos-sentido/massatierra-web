@@ -132,7 +132,7 @@ export default function Vitrina() {
         {/* En celular se parte en dos: primero textos y llamadas a la acción,
             debajo la ilustración interactiva con sus notas. */}
         <section className="relative isolate flex min-h-[min(92svh,860px)] items-center overflow-hidden max-md:min-h-0 max-md:flex-col max-md:items-stretch">
-          <div className="absolute inset-0 -z-20 max-md:relative max-md:inset-auto max-md:z-0 max-md:order-2 max-md:aspect-[27/34] max-md:w-full">
+          <div className="absolute inset-0 -z-20 max-md:relative max-md:inset-auto max-md:z-0 max-md:order-2 max-md:aspect-[27/40] max-md:w-full">
             <HeroSistema />
             <div
               aria-hidden

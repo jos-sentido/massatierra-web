@@ -11,7 +11,7 @@ import HeroPlano from "./HeroPlano";
  * - El rayo se pinta en un <canvas>: canal quebrado con ramas, resplandor y parpadeo.
  *   Nace donde el visitante hace clic y SIEMPRE termina en la punta.
  * - Al tocar la punta, la energía cambia de azul (descarga) a naranja (bajo control):
- *   baja por la bajante y se disipa en anillos desde el electrodo.
+ *   baja por la bajante y se drena hacia abajo desde la punta del electrodo.
  * - Solo: cae un rayo cada pocos segundos mientras el hero está en pantalla.
  * - Con «reducir movimiento» queda el dibujo fijo, sin rayos ni pulsos.
  *
@@ -22,6 +22,17 @@ import HeroPlano from "./HeroPlano";
 const X = 1330; // eje del sistema: cara exterior de la columna derecha del pórtico
 const PUNTA: [number, number] = [X, 262];
 const TIERRA: [number, number] = [X, 692];
+/**
+ * Disipación Massatierra: drenado hacia ABAJO desde la punta del electrodo
+ * («efecto punta», brochure p. 7). Nunca en ondas laterales: esa dispersión es
+ * la del sistema tradicional y es justo lo que el cliente pide no mostrar.
+ */
+const FLUJO = [-46, -24, -8, 8, 24, 46].map(
+  (d) => `M${X + d * 0.12} 700 Q${X + d * 0.35} 760 ${X + d} 818`,
+);
+const CARGAS: [number, number][] = [
+  [-20, 716], [20, 716], [-34, 744], [34, 744], [0, 734], [-12, 770], [12, 770],
+];
 const RECORRIDO = `M${X} 262 L${X} 590 L${X} 692`;
 
 // Las tres partes del sistema: [altura, número, parte, componente].
@@ -33,7 +44,7 @@ const NOTAS: [number, string, string, string][] = [
 
 const VB_ANCHO = "0 0 1600 900";
 const VB_ALTO = "1050 170 520 730";
-const VB_MOVIL = "1060 50 540 680"; // proporción 27:34, la del bloque en celular
+const VB_MOVIL = "1060 40 540 800"; // proporción 27:40, la del bloque en celular
 
 type Pt = { x: number; y: number };
 type Rama = { pts: Pt[]; ancho: number; desde: number; rama: boolean };
@@ -158,7 +169,7 @@ export default function HeroSistema({
     const pulso = q<SVGPathElement>("[data-pulso]");
     const destello = q<SVGCircleElement>("[data-destello]");
     const brilloElectrodo = q<SVGGElement>("[data-electrodo-on]");
-    const anillos = svg.querySelectorAll<SVGEllipseElement>("[data-anillo]");
+    const flujos = svg.querySelectorAll<SVGPathElement>("[data-flujo]");
 
     /** La energía ya dentro del sistema: naranja, ordenada, hacia abajo. */
     const conducir = () => {
@@ -195,20 +206,24 @@ export default function HeroSistema({
           easing: "ease-out",
         },
       );
-      anillos.forEach((a, i) =>
-        a.animate(
+      flujos.forEach((f, i) => {
+        const largo = f.getTotalLength();
+        const tramo = largo * 0.45;
+        f.style.strokeDasharray = `${tramo} ${largo + tramo}`;
+        f.animate(
           [
-            { opacity: 0, transform: "scale(.12)" },
-            { opacity: 0.95, offset: 0.12 },
-            { opacity: 0, transform: "scale(1)" },
+            { strokeDashoffset: tramo, opacity: 0 },
+            { opacity: 1, offset: 0.15 },
+            { strokeDashoffset: -largo, opacity: 0.2 },
           ],
           {
-            duration: 1700,
-            delay: 600 + i * 190,
-            easing: "cubic-bezier(.2,.6,.3,1)",
+            duration: 1100,
+            delay: 640 + (i % 3) * 90,
+            easing: "cubic-bezier(.45,0,.3,1)",
+            fill: "both",
           },
-        ),
-      );
+        );
+      });
     };
 
     // ── Rayo en canvas ──
@@ -469,6 +484,17 @@ export default function HeroSistema({
               vectorEffect="non-scaling-stroke"
             />
           </pattern>
+          <marker
+            id="hs-flecha"
+            viewBox="0 0 10 10"
+            refX="5"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M1 1 L9 5 L1 9" fill="none" stroke={cobre} strokeWidth="1.6" />
+          </marker>
           <mask id="hs-mask">
             <rect width="1600" height="900" fill="url(#hs-desvanecer)" />
           </mask>
@@ -512,35 +538,32 @@ export default function HeroSistema({
 
           <HeroPlano />
 
-          {/* Disipación en reposo: anillos tenues y constantes */}
-          <g
-            transform={`translate(${TIERRA[0]} ${TIERRA[1]})`}
-            stroke={cobre}
-            strokeWidth="1"
-            opacity="0.3"
-            {...linea}
-          >
-            <ellipse rx="70" ry="22" />
-            <ellipse rx="140" ry="44" />
-            <ellipse rx="215" ry="68" />
-            <ellipse rx="295" ry="93" />
+          {/* Disipación en reposo: drenado hacia abajo desde la punta */}
+          <g stroke={cobre} strokeWidth="1" opacity="0.38" {...linea}>
+            {FLUJO.map((d) => (
+              <path key={d} d={d} markerEnd="url(#hs-flecha)" />
+            ))}
+          </g>
+          <g stroke={cobre} strokeWidth="1" opacity="0.4" {...linea}>
+            {CARGAS.map(([dx, y]) => (
+              <path
+                key={`${dx}-${y}`}
+                d={`M${X + dx - 3.5} ${y} h7 M${X + dx} ${y - 3.5} v7`}
+              />
+            ))}
           </g>
 
-          {/* Disipación activa: se enciende con cada descarga */}
-          <g
-            transform={`translate(${TIERRA[0]} ${TIERRA[1]})`}
-            filter="url(#hs-brillo)"
-          >
-            {[0, 1, 2, 3].map((i) => (
-              <ellipse
-                key={i}
-                data-anillo
-                rx="300"
-                ry="94"
+          {/* Disipación activa: la descarga baja por las mismas líneas */}
+          <g filter="url(#hs-brillo)">
+            {FLUJO.map((d) => (
+              <path
+                key={d}
+                data-flujo
+                d={d}
                 stroke="#ff9a4d"
-                strokeWidth="1.6"
+                strokeWidth="1.8"
+                strokeLinecap="round"
                 opacity="0"
-                style={{ transformBox: "fill-box", transformOrigin: "center" }}
                 {...linea}
               />
             ))}

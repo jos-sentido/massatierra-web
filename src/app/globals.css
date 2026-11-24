@@ -168,22 +168,21 @@
   .hero-sistema .hs-nube { animation: none; opacity: 0.5; }
 }
 
-/* Sectores: pulso de disipación del electrodo al cambiar de sector */
-@keyframes sectores-anillo {
-  0% { opacity: 0; transform: scale(0.12); }
-  14% { opacity: 0.95; }
-  100% { opacity: 0; transform: scale(1); }
+/* Sectores: pulso de disipación hacia abajo desde la punta del electrodo */
+@keyframes sectores-drenado {
+  0% { opacity: 0; stroke-dashoffset: 40; }
+  15% { opacity: 1; }
+  100% { opacity: 0.15; stroke-dashoffset: -100; }
 }
-.sectores-pulso ellipse {
+.sectores-pulso path {
   opacity: 0;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sectores-anillo 1.5s cubic-bezier(0.2, 0.6, 0.3, 1) 0.35s both;
+  stroke-dasharray: 40 140;
+  animation: sectores-drenado 1.1s cubic-bezier(0.45, 0, 0.3, 1) 0.35s both;
 }
-.sectores-pulso ellipse:nth-child(2) { animation-delay: 0.55s; }
-.sectores-pulso ellipse:nth-child(3) { animation-delay: 0.75s; }
+.sectores-pulso path:nth-child(3n + 2) { animation-delay: 0.45s; }
+.sectores-pulso path:nth-child(3n) { animation-delay: 0.55s; }
 @media (prefers-reduced-motion: reduce) {
-  .sectores-pulso ellipse { animation: none; }
+  .sectores-pulso path { animation: none; }
 }
 
 /* Energía en movimiento: destellos que recorren el conductor hacia el electrodo */
