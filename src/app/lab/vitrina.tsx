@@ -142,7 +142,7 @@ export default function Vitrina() {
                 effect="rise"
                 trigger="load"
                 textAlign="left"
-                className="mt-3 !flex flex-wrap gap-x-[0.26em] text-[28px] font-bold leading-[1.1] tracking-tight sm:text-5xl sm:leading-[1.08]"
+                className="mt-3 !flex flex-wrap [&_.split-word]:mr-[0.26em] text-[28px] font-bold leading-[1.1] tracking-tight sm:text-5xl sm:leading-[1.08]"
               />
               <p className="mt-5 max-w-md text-base text-white/80">
                 Tecnología patentada, ingeniería especializada e instalación,
