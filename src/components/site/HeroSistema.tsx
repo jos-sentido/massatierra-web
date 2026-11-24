@@ -33,7 +33,7 @@ const NOTAS: [number, string, string, string][] = [
 
 const VB_ANCHO = "0 0 1600 900";
 const VB_ALTO = "1050 170 520 730";
-const VB_MOVIL = "1060 170 540 560"; // proporción 27:28, la del bloque en celular
+const VB_MOVIL = "1060 50 540 680"; // proporción 27:34, la del bloque en celular
 
 type Pt = { x: number; y: number };
 type Rama = { pts: Pt[]; ancho: number; desde: number; rama: boolean };
