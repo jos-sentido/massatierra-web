@@ -159,6 +159,11 @@
 @media (max-width: 1023px) {
   .hero-sistema .hs-notas { display: none; }
 }
+.hero-sistema .hs-notas-movil { display: none; }
+@media (max-width: 767px) {
+  .hero-sistema .hs-notas-movil { display: inline; }
+  .hero-sistema .hs-pie { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .hero-sistema .hs-nube { animation: none; opacity: 0.5; }
 }

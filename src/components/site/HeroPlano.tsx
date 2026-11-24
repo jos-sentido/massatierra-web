@@ -284,6 +284,7 @@ export default function HeroPlano() {
 
       {/* Pie de plano */}
       <g
+        className="hs-pie"
         fontFamily={mono}
         fill={TRAZO}
         opacity="0.5"

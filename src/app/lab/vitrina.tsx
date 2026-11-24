@@ -129,10 +129,21 @@ export default function Vitrina() {
       <Encabezado demo />
       <main className="bg-[#050d1c] text-white">
         {/* 1 · HERO */}
-        <section className="relative isolate flex min-h-[min(92svh,860px)] items-center overflow-hidden max-md:min-h-[100svh] max-md:items-end">
-          <HeroSistema className="-z-20" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#040a17]/90 via-[#040a17]/45 to-transparent max-lg:via-[#040a17]/70 max-md:bg-gradient-to-t max-md:from-[#040a17] max-md:from-25% max-md:via-[#040a17]/60 max-md:via-50% max-md:to-transparent" />
-          <div className="mx-auto w-full max-w-6xl px-6 py-24 max-md:pb-14 max-md:pt-0">
+        {/* En celular se parte en dos: primero textos y llamadas a la acción,
+            debajo la ilustración interactiva con sus notas. */}
+        <section className="relative isolate flex min-h-[min(92svh,860px)] items-center overflow-hidden max-md:min-h-0 max-md:flex-col max-md:items-stretch">
+          <div className="absolute inset-0 -z-20 max-md:relative max-md:inset-auto max-md:z-0 max-md:order-2 max-md:aspect-[27/28] max-md:w-full">
+            <HeroSistema />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#050d1c] to-transparent md:hidden"
+            />
+            <span className="pointer-events-none absolute left-4 top-3 z-10 rounded-md bg-black/45 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-white/70 md:hidden">
+              Toque el cielo: el rayo va al sistema
+            </span>
+          </div>
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#040a17]/90 via-[#040a17]/45 to-transparent max-lg:via-[#040a17]/70 max-md:hidden" />
+          <div className="mx-auto w-full max-w-6xl px-6 py-24 max-md:order-1 max-md:pb-6 max-md:pt-28">
             <div className="max-w-xl">
               <Rotulo simbolo="descarga">Tierras físicas y pararrayos</Rotulo>
               <SplitText
@@ -171,18 +182,11 @@ export default function Vitrina() {
                   Hablar con un especialista
                 </button>
               </div>
-              {/* En pantallas chicas las notas del plano se ocultan: aquí va la secuencia */}
-              <ol className="mt-7 grid max-w-sm grid-cols-3 gap-3 font-mono text-[10px] uppercase tracking-[0.1em] text-white/65 lg:hidden">
-                {["Captación", "Conducción", "Puesta a tierra"].map((t, i) => (
-                  <li key={t} className="border-t border-[#d9955f]/50 pt-2">
-                    <span className="block text-orange">0{i + 1}</span>
-                    {t}
-                  </li>
-                ))}
-              </ol>
             </div>
           </div>
-          <Nota>Haga clic en el cielo: el rayo va al sistema</Nota>
+          <span className="max-md:hidden">
+            <Nota>Haga clic en el cielo: el rayo va al sistema</Nota>
+          </span>
         </section>
 
         {/* 2 · RESPALDO */}

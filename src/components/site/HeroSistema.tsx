@@ -33,6 +33,7 @@ const NOTAS: [number, string, string, string][] = [
 
 const VB_ANCHO = "0 0 1600 900";
 const VB_ALTO = "1050 170 520 730";
+const VB_MOVIL = "1060 170 540 560"; // proporción 27:28, la del bloque en celular
 
 type Pt = { x: number; y: number };
 type Rama = { pts: Pt[]; ancho: number; desde: number; rama: boolean };
@@ -106,21 +107,27 @@ export default function HeroSistema({
   useEffect(() => {
     const svg = svgRef.current;
     const canvas = canvasRef.current;
-    const zona = svg?.parentElement?.parentElement;
+    const zona = svg?.closest("section") ?? svg?.parentElement?.parentElement;
     if (!svg || !canvas || !zona) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const mqMovil = window.matchMedia("(max-width: 767px)");
     const mqAlto = window.matchMedia("(max-aspect-ratio: 4/5)");
     const mqQuieto = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Celular: la ilustración va en su propio bloque bajo los textos, encuadrada
+    // en el sistema y con sus notas. Tableta vertical: encuadre alto detrás del texto.
     const encuadre = () => {
-      svg.setAttribute("viewBox", mqAlto.matches ? VB_ALTO : VB_ANCHO);
-      svg.setAttribute(
-        "preserveAspectRatio",
-        mqAlto.matches ? "xMidYMin slice" : "xMaxYMid slice",
-      );
+      const [vb, par] = mqMovil.matches
+        ? [VB_MOVIL, "xMidYMid slice"]
+        : mqAlto.matches
+          ? [VB_ALTO, "xMidYMin slice"]
+          : [VB_ANCHO, "xMaxYMid slice"];
+      svg.setAttribute("viewBox", vb);
+      svg.setAttribute("preserveAspectRatio", par);
     };
     encuadre();
+    mqMovil.addEventListener("change", encuadre);
     mqAlto.addEventListener("change", encuadre);
 
     let W = 0;
@@ -319,6 +326,8 @@ export default function HeroSistema({
       )
         return;
       const r = canvas.getBoundingClientRect();
+      // En celular los textos van arriba, fuera del dibujo: ahí no cae nada.
+      if (ev.clientY < r.top || ev.clientY > r.bottom) return;
       caer({ x: ev.clientX - r.left, y: ev.clientY - r.top });
       ultimo = performance.now();
     };
@@ -342,6 +351,7 @@ export default function HeroSistema({
     return () => {
       zona.removeEventListener("pointerdown", alClic);
       mqAlto.removeEventListener("change", encuadre);
+      mqMovil.removeEventListener("change", encuadre);
       ro.disconnect();
       io.disconnect();
       window.clearInterval(reloj);
@@ -351,6 +361,56 @@ export default function HeroSistema({
 
   const linea = { vectorEffect: "non-scaling-stroke" as const, fill: "none" };
   const cobre = "#d9955f";
+
+  const notas = (
+    clase: string,
+    titulo: number,
+    sub: number,
+    espacio: number,
+    ancho: number,
+    alto: number,
+  ) => (
+    <g
+      className={clase}
+      fontFamily="var(--font-mono, ui-monospace), monospace"
+      fontSize={titulo}
+      letterSpacing={espacio}
+    >
+      {NOTAS.map(([y, n, parte, pieza]) => (
+        <g key={n}>
+          <rect
+            x={X + 34}
+            y={y - alto / 2}
+            width={ancho}
+            height={alto}
+            rx="3"
+            fill="#050d1c"
+            fillOpacity="0.86"
+            stroke={cobre}
+            strokeOpacity="0.28"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d={`M${X + 4} ${y} H${X + 34}`}
+            stroke={cobre}
+            strokeWidth="1"
+            opacity="0.75"
+            {...linea}
+          />
+          <circle cx={X + 4} cy={y} r="2" fill={cobre} />
+          <text x={X + 46} y={y - sub * 0.25}>
+            <tspan fill="#f26b1d">{n}</tspan>
+            <tspan fill="#dfe7f2" dx={titulo * 0.6}>
+              {parte}
+            </tspan>
+          </text>
+          <text x={X + 46} y={y + sub * 1.2} fill="#9fb0c8" fontSize={sub}>
+            {pieza}
+          </text>
+        </g>
+      ))}
+    </g>
+  );
 
   return (
     <div className={`absolute inset-0 ${className}`}>
@@ -565,47 +625,10 @@ export default function HeroSistema({
             style={{ transformBox: "fill-box", transformOrigin: "center" }}
           />
 
-          {/* Anotaciones técnicas: salen hacia la derecha, nunca hacia los textos */}
-          <g
-            className="hs-notas"
-            fontFamily="var(--font-mono, ui-monospace), monospace"
-            fontSize="13"
-            letterSpacing="1.6"
-          >
-            {NOTAS.map(([y, n, titulo, sub]) => (
-              <g key={n}>
-                <rect
-                  x={X + 34}
-                  y={y - 22}
-                  width="224"
-                  height="44"
-                  rx="3"
-                  fill="#050d1c"
-                  fillOpacity="0.86"
-                  stroke={cobre}
-                  strokeOpacity="0.28"
-                  {...{ vectorEffect: "non-scaling-stroke" as const }}
-                />
-                <path
-                  d={`M${X + 4} ${y} H${X + 34}`}
-                  stroke={cobre}
-                  strokeWidth="1"
-                  opacity="0.75"
-                  {...linea}
-                />
-                <circle cx={X + 4} cy={y} r="2" fill={cobre} />
-                <text x={X + 46} y={y - 3}>
-                  <tspan fill="#f26b1d">{n}</tspan>
-                  <tspan fill="#dfe7f2" dx="8">
-                    {titulo}
-                  </tspan>
-                </text>
-                <text x={X + 46} y={y + 13} fill="#9fb0c8" fontSize="11">
-                  {sub}
-                </text>
-              </g>
-            ))}
-          </g>
+          {/* Anotaciones técnicas: salen hacia la derecha, nunca hacia los textos.
+              Escritorio y celular llevan su propia talla de letra. */}
+          {notas("hs-notas", 13, 11, 1.6, 224, 44)}
+          {notas("hs-notas-movil", 17, 13, 1.1, 228, 52)}
         </g>
       </svg>
       <canvas
