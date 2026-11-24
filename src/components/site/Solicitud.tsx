@@ -47,6 +47,15 @@ const NECESIDADES: { id: string; titulo: string; trazo: React.ReactNode }[] = [
   },
 ];
 
+/*
+ * Superficie de campo: un azul más claro que la hoja y con borde propio, para que
+ * todo lo que se llena o se elige se lea como campo de formulario. Al elegir o
+ * escribir, el campo pasa a naranja (se «energiza»).
+ */
+const CAMPO =
+  "border border-[#2b4063] bg-[#0f1e36] hover:border-[#41597f] hover:bg-[#142742]";
+const CAMPO_ON = "border border-orange bg-orange/[0.10]";
+
 function Esquinas() {
   const c = "absolute h-3 w-3 border-[#d9955f]/80";
   return (
@@ -79,18 +88,18 @@ function Casilla({
   const id = useId();
   return (
     <div
-      className={`group relative border-b border-r border-white/12 px-4 pb-3 pt-2.5 transition-colors duration-200 focus-within:bg-orange/[0.06] ${ancho}`}
+      className={`group relative ${CAMPO} px-4 pb-3 pt-2.5 transition-colors duration-200 focus-within:border-orange/70 focus-within:bg-[#142742] ${ancho}`}
     >
       <label
         htmlFor={id}
-        className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55"
+        className="block font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#9fb3d1]"
       >
         {rotulo}
       </label>
       <input
         id={id}
         {...input}
-        className="mt-1 block h-8 w-full bg-transparent text-base text-white outline-none placeholder:text-white/25"
+        className="mt-1 block h-8 w-full bg-transparent text-base text-white outline-none placeholder:text-white/30"
       />
       {/* La casilla se «energiza» al escribir */}
       <span
@@ -195,14 +204,14 @@ export default function Solicitud() {
             <legend className="px-5 pt-4 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55">
               ¿Qué necesita?
             </legend>
-            <div className="mt-3 grid border-t border-white/12 sm:grid-cols-2">
+            <div className="mt-3 grid gap-2 px-5 pb-4 sm:grid-cols-2">
               {NECESIDADES.map((o, i) => {
                 const on = necesidad === o.id;
                 return (
                   <label
                     key={o.id}
-                    className={`relative flex min-h-[60px] cursor-pointer items-center gap-3 border-b border-white/12 px-4 py-3 transition-colors duration-200 hover:bg-white/[0.04] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-orange sm:border-r ${
-                      on ? "bg-orange/[0.08]" : ""
+                    className={`relative flex min-h-[60px] cursor-pointer items-center gap-3 px-4 py-3 transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
+                      on ? CAMPO_ON : CAMPO
                     } ${i === NECESIDADES.length - 1 ? "sm:col-span-2" : ""}`}
                   >
                     <input
@@ -225,7 +234,7 @@ export default function Solicitud() {
                       {o.trazo}
                     </svg>
                     <span
-                      className={`text-[15px] ${on ? "text-white" : "text-white/80"}`}
+                      className={`text-[15px] ${on ? "text-white" : "text-white/85"}`}
                     >
                       {o.titulo}
                     </span>
@@ -235,7 +244,7 @@ export default function Solicitud() {
                       className={`ml-auto h-3 w-3 shrink-0 rounded-full border-2 transition-all duration-200 ${
                         on
                           ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
-                          : "border-white/30"
+                          : "border-[#6c84a8]"
                       }`}
                     />
                   </label>
@@ -245,7 +254,7 @@ export default function Solicitud() {
           </fieldset>
 
           {/* ¿Ya tiene un levantamiento o dictamen? Separa a quien llega con una revisión hecha. */}
-          <fieldset className="border-b border-white/12 px-5 py-4">
+          <fieldset className="border-y border-white/12 px-5 py-4">
             <legend className="float-left w-full text-[15px] text-white">
               ¿Ya le entregaron un levantamiento o dictamen de su instalación?
             </legend>
@@ -264,8 +273,8 @@ export default function Solicitud() {
                 return (
                   <label
                     key={texto}
-                    className={`flex min-h-12 cursor-pointer items-center gap-3 border px-4 transition-colors duration-200 hover:bg-white/[0.04] has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
-                      on ? "border-orange bg-orange/[0.08]" : "border-white/15"
+                    className={`flex min-h-12 cursor-pointer items-center gap-3 px-4 transition-colors duration-200 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-orange ${
+                      on ? CAMPO_ON : CAMPO
                     }`}
                   >
                     <input
@@ -280,7 +289,7 @@ export default function Solicitud() {
                       className={`h-3 w-3 shrink-0 rounded-full border-2 transition-all duration-200 ${
                         on
                           ? "border-orange bg-orange shadow-[0_0_10px_2px_rgba(242,107,29,.7)]"
-                          : "border-white/30"
+                          : "border-[#6c84a8]"
                       }`}
                     />
                     <span
@@ -318,7 +327,7 @@ export default function Solicitud() {
           <p className="px-5 pt-4 font-mono text-[10.5px] uppercase tracking-[0.16em] text-white/55">
             Sus datos
           </p>
-          <div className="mt-3 grid border-t border-white/12 sm:grid-cols-2">
+          <div className="mt-3 grid gap-2 px-5 sm:grid-cols-2">
             <Casilla
               rotulo="Nombre"
               name="nombre"
