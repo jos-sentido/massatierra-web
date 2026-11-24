@@ -12,7 +12,7 @@ import ElectricBorder from "@/components/ElectricBorder";
  * En la vitrina no envía nada: muestra el recorrido y el acabado.
  */
 
-const NECESIDADES: { id: string; titulo: string; trazo: React.ReactNode }[] = [
+export const NECESIDADES: { id: string; titulo: string; trazo: React.ReactNode }[] = [
   {
     id: "tierra",
     titulo: "Sistema de puesta a tierra",
@@ -52,11 +52,11 @@ const NECESIDADES: { id: string; titulo: string; trazo: React.ReactNode }[] = [
  * todo lo que se llena o se elige se lea como campo de formulario. Al elegir o
  * escribir, el campo pasa a naranja (se «energiza»).
  */
-const CAMPO =
+export const CAMPO =
   "border border-[#2b4063] bg-[#0f1e36] hover:border-[#41597f] hover:bg-[#142742]";
-const CAMPO_ON = "border border-orange bg-orange/[0.10]";
+export const CAMPO_ON = "border border-orange bg-orange/[0.10]";
 
-function Esquinas() {
+export function Esquinas() {
   const c = "absolute h-3 w-3 border-[#d9955f]/80";
   return (
     <>

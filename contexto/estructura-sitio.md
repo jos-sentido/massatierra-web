@@ -145,6 +145,17 @@ Destino: Firestore, igual que `modularte-web` con `/api/cotizar`. **Debe quedar 
 conectarse al cotizador** (decisión 7): el documento que se guarda tiene que traer lo que el
 cotizador necesite, sin construir el cotizador aquí.
 
+**Dos formatos, los mismos datos (Jos, 2026-11-24).** La solicitud de diagnóstico se ofrece
+como **guiada** (una pregunta a la vez, por omisión) o como **formulario** (todo a la vista),
+con un selector. La guiada no es un bot ni un chat libre: es un guion fijo con opciones y
+campos (`components/site/SolicitudGuiada.tsx`). Su ventaja es la ramificación: si la persona
+ya tiene un levantamiento se le pregunta además **quién revisó** (Protección Civil · STPS ·
+unidad verificadora · otro) y **si tiene plazo** para corregir; si no, nunca lo ve. El guion:
+necesidad → levantamiento → (quién revisó → plazo) → tipo de instalación → etapa (obra nueva ·
+ampliación · operando) → ciudad → nombre y empresa → teléfono y canal preferido (WhatsApp ·
+llamada) → hoja de resumen. **El documento que se guarda debe traer estos campos** en ambos
+formatos, y la guiada registra en qué pregunta se abandona.
+
 **Formulario de soporte** (`/soporte`): los campos del heredado, a otra colección.
 
 **Conversiones que pide el anexo:** llamadas · clics a WhatsApp · descargas de ficha técnica ·

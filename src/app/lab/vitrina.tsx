@@ -12,7 +12,7 @@ import Encabezado from "@/components/site/Encabezado";
 import HeroSistema from "@/components/site/HeroSistema";
 import Pie from "@/components/site/Pie";
 import { Ficha, Rotulo } from "@/components/site/Rotulo";
-import Solicitud from "@/components/site/Solicitud";
+import Diagnostico from "@/components/site/Diagnostico";
 import Sectores, { type Sector } from "@/components/site/Sectores";
 import LogoLoop from "@/components/LogoLoop";
 import MagnetLines from "@/components/MagnetLines";
@@ -339,7 +339,7 @@ export default function Vitrina() {
                 />
               </div>
             </div>
-            <Solicitud />
+            <Diagnostico />
           </div>
         </section>
       </main>

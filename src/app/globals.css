@@ -214,3 +214,8 @@
 @media (prefers-reduced-motion: reduce) {
   .energia-filo { animation: none; opacity: 0; }
 }
+
+/* Solicitud guiada: cada pregunta entra dibujándose */
+@keyframes guiada-entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.guiada-entra { animation: guiada-entra 0.35s cubic-bezier(0.22, 0.75, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .guiada-entra { animation: none; } }
