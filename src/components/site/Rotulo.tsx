@@ -1,3 +1,4 @@
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 /*
  * Rótulo de sección y ficha técnica, en lenguaje de plano.
  *
@@ -79,25 +80,39 @@ export function Rotulo({
 export function Ficha({
   renglones,
 }: {
-  renglones: [propiedad: string, valor: string][];
+  /** El tercer elemento, opcional, es un ícono: va dentro del nodo de la barra. */
+  renglones: [propiedad: string, valor: string, icono?: IconSvgElement][];
 }) {
+  const conIconos = renglones.some((r) => r[2]);
   return (
-    <dl className="relative pl-7">
+    <dl className={`relative ${conIconos ? "pl-12" : "pl-7"}`}>
       {/* Barra de cobre de la que deriva cada renglón */}
       <span
         aria-hidden
-        className="absolute bottom-3 left-[5px] top-3 w-[2px] rounded-full bg-[#b8733f]/70"
+        className={`absolute bottom-3 top-3 w-[2px] rounded-full bg-[#b8733f]/70 ${
+          conIconos ? "left-[13px]" : "left-[5px]"
+        }`}
       />
-      {renglones.map(([propiedad, valor]) => (
+      {renglones.map(([propiedad, valor, icono]) => (
         <div
           key={propiedad}
           className="relative flex items-baseline gap-3 py-2.5"
         >
           <span
             aria-hidden
-            className="absolute -left-7 top-1/2 flex -translate-y-1/2 items-center"
+            className={`absolute top-1/2 flex -translate-y-1/2 items-center ${
+              conIconos ? "-left-12" : "-left-7"
+            }`}
           >
-            <span className="h-3 w-3 rounded-full border-2 border-[#d9955f] bg-[#050d1c]" />
+            {conIconos ? (
+              <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#d9955f] bg-[#050d1c] text-[#e0a06a]">
+                {icono && (
+                  <HugeiconsIcon icon={icono} size={14} strokeWidth={1.8} />
+                )}
+              </span>
+            ) : (
+              <span className="h-3 w-3 rounded-full border-2 border-[#d9955f] bg-[#050d1c]" />
+            )}
             <span className="h-px w-3 bg-[#d9955f]/70" />
           </span>
           <dt className="shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-white/55">

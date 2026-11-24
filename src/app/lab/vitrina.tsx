@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  Call02Icon,
+  Clock01Icon,
+  WhatsappIcon,
+} from "@hugeicons/core-free-icons";
 import CountUp from "@/components/CountUp";
 import DecryptedText from "@/components/DecryptedText";
 import ElectricBorder from "@/components/ElectricBorder";
@@ -327,9 +332,9 @@ export default function Vitrina() {
               <div className="mt-8 max-w-md">
                 <Ficha
                   renglones={[
-                    ["Conmutador", "+52 33 3627 3226"],
-                    ["WhatsApp", "+52 33 1043 3045"],
-                    ["Horario", "Lunes a viernes, 9:00 a 18:00"],
+                    ["Conmutador", "+52 33 3627 3226", Call02Icon],
+                    ["WhatsApp", "+52 33 1043 3045", WhatsappIcon],
+                    ["Horario", "Lunes a viernes, 9:00 a 18:00", Clock01Icon],
                   ]}
                 />
               </div>
