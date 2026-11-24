@@ -81,6 +81,26 @@ Las rutas van en español, sin acentos y en minúsculas. ⭐ = destino de campa�
 
 En total son unas 35 páginas. Las fichas por modelo son plantilla: una página que se alimenta de datos.
 
+## Inicio — orden de secciones (Jos, 2026-11-24)
+
+Alineado con la vitrina (`/lab`). Las secciones marcadas con 👁 ya existen como componente.
+
+1. 👁 **Hero** — dibujo técnico animado, rayo que el visitante provoca
+2. 👁 **Respaldo** — +25 años · 20 años de garantía (🚧 decisión 8) · PAT. #285201 · cinta de avales
+3. **Cumplimiento: la cadena completa** — estudio → instalación → dictamen UVIE → garantía (borde con corriente)
+4. **Soluciones** — 4 tarjetas; Supresores solo si se confirma (decisión 9)
+5. 👁 **Tecnología propia** — Electrodo Magneto Activo, líneas de campo, renglones de ficha
+6. 👁 **Estudios y medición** — terreno en curvas de nivel; aquí entra «¿Su instalación presenta estas señales?»
+7. 👁 **Sectores** — paneles conectados a tierra; absorbe «Experiencia por sector» (enlace a Proyectos)
+8. **Así trabajamos** — 5 pasos
+9. 👁 **Diagnóstico** — hoja de solicitud (es el cierre)
+
+Sale del heredado: **«Encuentre el camino para su proyecto»** (sus 4 destinos ya están en hero,
+Soluciones, Estudios y el acceso a Soporte). El boceto de **todas** las páginas, con sus
+secciones en orden, está en el entregable:
+https://propuestas.sentido.mx/massatierra/estructura-web (pestaña «Wireframes»).
+Esa página y este documento deben coincidir; si se cambia uno, se cambia el otro.
+
 ## La sección de cumplimiento, a detalle
 
 Es la sección que cambia el negocio del sitio, así que va con más detalle.
