@@ -64,7 +64,7 @@ const PASOS: Paso[] = [
   {
     id: "levantamiento",
     rotulo: "Levantamiento",
-    pregunta: "¿Ya le entregaron un levantamiento o dictamen de su instalación?",
+    pregunta: "¿Le entregaron recientemente un levantamiento o dictamen de su instalación?",
     ayuda:
       "Es el documento que deja una revisión de cumplimiento, con las observaciones por corregir.",
     tipo: "opciones",

@@ -42,7 +42,7 @@ const SECTORES: Sector[] = [
   {
     titulo: "Industria y manufactura",
     texto:
-      "Líneas de producción, automatización, tableros y equipos de control.",
+      "Tableros, control y automatización que deben operar sin interrupciones.",
     areas: [
       "Subestaciones",
       "Cuartos eléctricos",
@@ -55,7 +55,7 @@ const SECTORES: Sector[] = [
   },
   {
     titulo: "Hotelería",
-    texto: "Instalaciones y sistemas que sostienen la experiencia del huésped.",
+    texto: "Una operación que recibe personas todos los días y no puede fallar.",
     areas: [
       "Cuartos eléctricos",
       "Equipos de comunicación",
@@ -69,7 +69,7 @@ const SECTORES: Sector[] = [
   {
     titulo: "Hospitales y clínicas",
     texto:
-      "Infraestructura eléctrica y equipos sensibles para la atención médica.",
+      "Equipos médicos sensibles, sistemas de respaldo y comunicación.",
     areas: [
       "Cuartos eléctricos",
       "Infraestructura de comunicación",
@@ -82,7 +82,7 @@ const SECTORES: Sector[] = [
   {
     titulo: "Telecomunicaciones y centros de datos",
     texto:
-      "Servidores, redes, sistemas de respaldo e instalaciones de transmisión.",
+      "Servidores, redes y transmisión: un daño significa servicio caído.",
     areas: [
       "Servidores y racks",
       "Torres",
@@ -96,7 +96,7 @@ const SECTORES: Sector[] = [
   {
     titulo: "Construcción e infraestructura",
     texto:
-      "Ingeniería y ejecución para obra nueva, ampliaciones y modernizaciones.",
+      "La protección integrada desde el proyecto, sin rehacer trabajo en obra.",
     areas: [
       "Desarrollos habitacionales",
       "Edificios comerciales",
@@ -107,9 +107,22 @@ const SECTORES: Sector[] = [
     alt: "Imagen conceptual: edificio en construcción de noche, con pararrayos en el punto más alto",
   },
   {
+    titulo: "Comercio y servicios",
+    texto: "Los equipos esenciales para atender a sus clientes.",
+    areas: [
+      "Terminales de pago",
+      "Redes",
+      "Sistemas de seguridad",
+      "Bombeo",
+      "Equipos eléctricos",
+    ],
+    imagen: `${BASE}/lab/sector-comercio.jpg`,
+    alt: "Imagen conceptual: plaza comercial de noche, con pararrayos en la azotea",
+  },
+  {
     titulo: "Residencial",
     texto:
-      "Casas y residencias: la familia y los equipos del hogar, protegidos.",
+      "Su familia y los equipos de su hogar, también ante sobretensiones de la red.",
     areas: [
       "Instalación eléctrica",
       "Equipos electrónicos",
@@ -122,7 +135,7 @@ const SECTORES: Sector[] = [
   },
   {
     titulo: "Minería",
-    texto: "Infraestructura de operación, mantenimiento y servicios.",
+    texto: "Protección para operaciones en condiciones exigentes.",
     areas: ["Operación", "Mantenimiento", "Almacenamiento", "Servicios"],
     imagen: `${BASE}/lab/sector-mineria.jpg`,
     alt: "Imagen conceptual: operación minera de noche, con pararrayos en la estructura más alta",
@@ -159,7 +172,7 @@ export default function Vitrina() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#040a17]/90 via-[#040a17]/45 to-transparent max-lg:via-[#040a17]/70 max-md:hidden" />
           <div className="mx-auto w-full max-w-6xl px-6 py-24 max-md:order-1 max-md:pb-6 max-md:pt-28">
             <div className="max-w-xl">
-              <Rotulo simbolo="descarga">Tierras físicas y pararrayos</Rotulo>
+              <Rotulo simbolo="descarga">Tierras físicas, pararrayos y protección contra sobretensiones</Rotulo>
               <SplitText
                 tag="h1"
                 text="Tecnología para proteger lo que mantiene en marcha su empresa"
@@ -217,7 +230,7 @@ export default function Vitrina() {
                 <CountUp to={20} duration={1.6} />
               </p>
               <p className="mt-1 text-sm text-white/70">
-                años de garantía por escrito
+                años de garantía de desempeño por escrito
               </p>
             </div>
             <div className="col-span-2">
@@ -270,9 +283,10 @@ export default function Vitrina() {
                 Electrodo Magneto Activo
               </h2>
               <p className="mt-4 max-w-md text-white/75">
+                Tecnología patentada, desarrollada y fabricada en México.
                 MassLink es un sistema unidireccional: solo permite el drenado
                 de corrientes no deseadas a tierra y evita que regresen del
-                subsuelo a las aplicaciones.
+                subsuelo a sus equipos.
               </p>
               <div className="mt-8 max-w-md">
                 <Ficha
@@ -283,6 +297,12 @@ export default function Vitrina() {
                   ]}
                 />
               </div>
+              <button
+                type="button"
+                className="mt-8 min-h-12 cursor-pointer rounded-[14px] border border-white/40 px-6 text-[15px] font-semibold transition-colors duration-200 hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Conocer la tecnología
+              </button>
             </div>
             <div className="relative mx-auto aspect-square w-full max-w-[440px]">
               <MagnetLines
@@ -330,9 +350,25 @@ export default function Vitrina() {
                 Conozca las condiciones de su terreno antes de decidir
               </h2>
               <p className="mt-4 text-white/75">
-                Medición de resistividad del terreno y de resistencia a tierra
-                para diseñar el sistema y documentar el cumplimiento.
+                No todos los terrenos son iguales. Medimos la resistividad del
+                suelo y la resistencia a tierra para diseñar el sistema
+                adecuado y documentar el cumplimiento.
               </p>
+              <p className="mt-6 text-sm font-semibold text-white/85">
+                ¿Su instalación presenta alguna de estas señales?
+              </p>
+              <ul className="mt-3 space-y-2 text-sm text-white/75">
+                {[
+                  "Equipos que fallan después de una tormenta",
+                  "Interrupciones en control o ruido en audio y telecomunicaciones",
+                  "Sensación de descarga al tocar equipos o estructuras",
+                ].map((s) => (
+                  <li key={s} className="flex gap-2.5">
+                    <span aria-hidden className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-orange" />
+                    {s}
+                  </li>
+                ))}
+              </ul>
               <p className="mt-6 font-mono text-xl tracking-wide text-orange">
                 <DecryptedText
                   text="NOM-022-STPS-2015"
@@ -342,6 +378,12 @@ export default function Vitrina() {
                   aria-label="NOM-022-STPS-2015"
                 />
               </p>
+              <button
+                type="button"
+                className="mt-8 min-h-12 cursor-pointer rounded-[14px] bg-orange px-6 text-[15px] font-bold text-[#1a0d05] transition-transform duration-200 hover:-translate-y-px active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Agendar estudio técnico
+              </button>
             </div>
           </div>
           <Nota>El terreno se levanta bajo el cursor</Nota>
@@ -371,8 +413,8 @@ export default function Vitrina() {
                 Cuéntenos qué necesita proteger
               </h2>
               <p className="mt-4 max-w-md text-white/75">
-                Comparta las características de su instalación o proyecto. Un
-                especialista le ayudará a identificar cómo comenzar.
+                Una pregunta a la vez, o el formulario completo si lo prefiere.
+                Un especialista le ayudará a identificar cómo comenzar.
               </p>
               <div className="mt-8 max-w-md">
                 <Ficha
