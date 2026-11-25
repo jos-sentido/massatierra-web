@@ -80,6 +80,7 @@ export const MENU: Seccion[] = [
         titulo: "Comercio y servicios",
         href: "/sectores/comercio-y-servicios",
       },
+      { titulo: "Residencial", href: "/sectores/residencial" },
       { titulo: "Minería", href: "/sectores/mineria" },
     ],
   },

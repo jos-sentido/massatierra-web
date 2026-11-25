@@ -107,6 +107,20 @@ const SECTORES: Sector[] = [
     alt: "Imagen conceptual: edificio en construcción de noche, con pararrayos en el punto más alto",
   },
   {
+    titulo: "Residencial",
+    texto:
+      "Casas y residencias: la familia y los equipos del hogar, protegidos.",
+    areas: [
+      "Instalación eléctrica",
+      "Equipos electrónicos",
+      "Electrodomésticos",
+      "Bombeo",
+      "Accesos y seguridad",
+    ],
+    imagen: `${BASE}/lab/sector-residencial.jpg`,
+    alt: "Imagen conceptual: residencia de noche, con pararrayos en la azotea",
+  },
+  {
     titulo: "Minería",
     texto: "Infraestructura de operación, mantenimiento y servicios.",
     areas: ["Operación", "Mantenimiento", "Almacenamiento", "Servicios"],

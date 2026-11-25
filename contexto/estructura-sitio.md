@@ -19,6 +19,8 @@
 | ➕ | **Sección nueva: Cumplimiento normativo** (NOM-022, dictamen UVIE, levantamientos) | Es el hueco más caro del contenido heredado y el destino de la campaña A1 del anexo de pauta |
 | ➕ | **Productos con ficha técnica** (MTK, MTPP02, MTAT02) dentro de Tecnología | El heredado nunca nombra un modelo. La campaña B2 mide descargas de ficha técnica |
 | ➕ | **Sector Minería** | Tiene cartera documentada (Codelco, Minera Escondida, Minera Candelaria) y el propio heredado la menciona en Proyectos, pero no le da página |
+| ➕ | **Sector Residencial** | Lo pidió Mauro en la reunión del 24-nov-2026 |
+| ✏️ | **Fichas técnicas y documentos «a solicitud»**, no descarga libre | Reunión 24-nov: Mauro no quiere material técnico descargable que la competencia pueda copiar. La ficha se entrega tras el contacto (y la campaña B2 mide solicitudes de ficha en vez de descargas) |
 | ➕ | **Pregunta de origen en el formulario:** «¿Recibió recientemente un levantamiento o dictamen de cumplimiento?» | Lo pide el anexo de pauta para separar la demanda inducida de la comercial |
 | ✏️ | La garantía y la cifra de 2 Ω | El heredado la suaviza a «objetivo de diseño menor a 2 Ω», y el brief dice «2 Ω garantizados por escrito». Ver la decisión 8 |
 | ✏️ | Contacto sin «menos de dos horas» ni «gratuito» | Decisión 5. Mientras no se cierre, el copy no promete tiempos |
@@ -53,6 +55,7 @@ Las rutas van en español, sin acentos y en minúsculas. ⭐ = destino de campa�
 │   ├── /telecom-y-centros-de-datos
 │   ├── /construccion
 │   ├── /comercio-y-servicios
+│   ├── /residencial                ★ NUEVA (lo pidió Mauro, reunión 24-nov)
 │   └── /mineria                    ★ NUEVA
 │
 ├── /tecnologia                     Electrodo Magneto Activo · MassLink · patente

@@ -24,6 +24,7 @@ export const SECTORES = [
   "Telecom o centro de datos",
   "Construcción",
   "Comercio y servicios",
+  "Residencial",
   "Minería",
   "Otra",
 ];
